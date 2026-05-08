@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-# Run on the NUC after a failed LinuxCNC start. Writes diag.txt to this directory.
+# Run on the NUC after a failed M6. Writes diag.txt to this directory.
+# For best results: launch LinuxCNC from a terminal, attempt M6 in MDI, close it,
+# then run this script. The terminal output is the most useful thing — paste it in too.
 
 set -euo pipefail
 OUT="$(dirname "$0")/diag.txt"
@@ -13,46 +15,36 @@ CONFIG="$HOME/linuxcnc/configs/myCoolMachine"
   echo "--- python/toplevel.py ---"
   cat "$CONFIG/python/toplevel.py" 2>/dev/null || echo "NOT FOUND"
   echo
-  echo "--- myCoolMachine.ini [PYTHON] and [RS274NGC] ---"
-  grep -A5 '^\[PYTHON\]' "$CONFIG/myCoolMachine.ini" 2>/dev/null
-  echo
-  grep -A10 '^\[RS274NGC\]' "$CONFIG/myCoolMachine.ini" 2>/dev/null
-  echo
-
-  echo "=== PYTHON IMPORT TEST ==="
-  python3 - <<'PYEOF'
-import sys
-print("sys.path:", sys.path)
-
-# Check if LinuxCNC Python modules are findable
-for mod in ("emccanon", "interpreter", "linuxcnc"):
-    try:
-        __import__(mod)
-        print(f"import {mod}: OK")
-    except ImportError as e:
-        print(f"import {mod}: FAILED — {e}")
-
-# Try loading remap.py directly
-import importlib.util, os
-remap_path = os.path.expanduser("~/linuxcnc/configs/myCoolMachine/python/remap.py")
-try:
-    spec = importlib.util.spec_from_file_location("remap", remap_path)
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    print("remap.py loaded OK")
-    print("  functions:", [x for x in dir(mod) if not x.startswith("_")])
-except Exception as e:
-    print(f"remap.py load FAILED: {e}")
+  echo "--- INI [PYTHON] + [RS274NGC] ---"
+  python3 - "$CONFIG/myCoolMachine.ini" <<'PYEOF'
+import sys, configparser
+p = configparser.RawConfigParser()
+p.read(sys.argv[1])
+for s in ("PYTHON", "RS274NGC"):
+    if p.has_section(s):
+        print(f"[{s}]")
+        for k, v in p.items(s): print(f"  {k} = {v}")
 PYEOF
+  echo
+
+  echo "=== LINUXCNC PRINT LOG (full) ==="
+  cat "$HOME/linuxcnc_print.txt" 2>/dev/null || echo "NOT FOUND"
 
   echo
-  echo "=== LINUXCNC PRINT LOG (last 80 lines) ==="
-  tail -80 "$HOME/linuxcnc_print.txt" 2>/dev/null || echo "NOT FOUND"
+  echo "=== LINUXCNC DEBUG LOG (full) ==="
+  cat "$HOME/linuxcnc_debug.txt" 2>/dev/null || echo "NOT FOUND"
 
   echo
-  echo "=== LINUXCNC DEBUG LOG (last 80 lines) ==="
-  tail -80 "$HOME/linuxcnc_debug.txt" 2>/dev/null || echo "NOT FOUND"
+  echo "=== OTHER LOG FILES ==="
+  for f in "$HOME/.linuxcnc/"*.log "$HOME/linuxcnc/"*.log /tmp/linuxcnc*.log; do
+    [[ -f "$f" ]] || continue
+    echo "--- $f ---"
+    cat "$f"
+  done
 
 } > "$OUT" 2>&1
 
 echo "Written to $OUT"
+echo
+echo "IMPORTANT: also paste the terminal output from the LinuxCNC session where M6 was attempted."
+echo "That terminal shows Python tracebacks that don't land in the log files."
