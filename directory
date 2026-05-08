@@ -1,0 +1,178 @@
+/home/conor/linuxcnc
+├── configs
+│   ├── sim.axis
+│   │   ├── README
+│   │   ├── README_es
+│   │   ├── autosave.halscope
+│   │   ├── axis.ini
+│   │   ├── axis_9axis.ini
+│   │   ├── axis_mm.ini
+│   │   ├── canterp.ini
+│   │   ├── canterp_example.can
+│   │   ├── cooling.hal
+│   │   ├── hallib -> /usr/share/linuxcnc/hallib
+│   │   ├── histogram_demo.ini
+│   │   ├── histogram_demo.txt
+│   │   ├── histogram_demo_es.txt
+│   │   ├── historical_lathe.ini
+│   │   ├── ini_hal_demo.ini
+│   │   ├── ini_hal_demo.txt
+│   │   ├── ini_hal_demo_es.txt
+│   │   ├── lathe.ini
+│   │   ├── lathe.tbl
+│   │   ├── lathe.xml
+│   │   ├── lathe_postgui.hal
+│   │   ├── ldelta.ini
+│   │   ├── ldelta_demo.ini
+│   │   ├── ldelta_demo.txt
+│   │   ├── ldelta_demo_es.txt
+│   │   ├── minimal_xyz.ini
+│   │   ├── panic_controller.hal
+│   │   ├── panic_controller.py
+│   │   ├── position.txt
+│   │   ├── position_mm.txt
+│   │   ├── postgui_calib_helper.hal
+│   │   ├── profile_axis.ini
+│   │   ├── random_tc.ini
+│   │   ├── rdelta.ini
+│   │   ├── safety_mcu.py
+│   │   ├── sim.tbl
+│   │   ├── sim.tbl.bak
+│   │   ├── sim.var
+│   │   ├── sim.var.bak
+│   │   ├── sim_mm.tbl
+│   │   ├── sim_mm.var
+│   │   ├── sim_mm.var.bak
+│   │   └── simpockets.tbl
+│   ├── sim.gmoccapy
+│   │   ├── 6_axis.ini
+│   │   ├── 7_axis.ini
+│   │   ├── 7_axis_tool.ini
+│   │   ├── 8_axis.ini
+│   │   ├── 9_axis.ini
+│   │   ├── README
+│   │   ├── README_es
+│   │   ├── blockdelete.glade
+│   │   ├── blockdelete.hal
+│   │   ├── blockdelete.py
+│   │   ├── button.glade
+│   │   ├── core_sim.hal
+│   │   ├── core_sim4.hal
+│   │   ├── core_sim_6.hal
+│   │   ├── core_sim_7.hal
+│   │   ├── core_sim_8.hal
+│   │   ├── core_sim_9.hal
+│   │   ├── core_sim_XYZAB.hal
+│   │   ├── core_sim_XYZAC.hal
+│   │   ├── core_sim_XYZCW.hal
+│   │   ├── dro.glade
+│   │   ├── gmoccapy.ini
+│   │   ├── gmoccapy.pref
+│   │   ├── gmoccapy.txt
+│   │   ├── gmoccapy2.glade
+│   │   ├── gmoccapy_4_axis.ini
+│   │   ├── gmoccapy_4_axis.txt
+│   │   ├── gmoccapy_800x600.ini
+│   │   ├── gmoccapy_800x600.py
+│   │   ├── gmoccapy_800x600.txt
+│   │   ├── gmoccapy_XYZAB.ini
+│   │   ├── gmoccapy_XYZAC.ini
+│   │   ├── gmoccapy_XYZCW.ini
+│   │   ├── gmoccapy_blockdelete.ini
+│   │   ├── gmoccapy_left_panel.ini
+│   │   ├── gmoccapy_messages.ini
+│   │   ├── gmoccapy_pedant.ini
+│   │   ├── gmoccapy_postgui.hal
+│   │   ├── gmoccapy_pyngcgui.ini
+│   │   ├── gmoccapy_pyngcgui.txt
+│   │   ├── gmoccapy_pyngcgui_gcmc.ini
+│   │   ├── gmoccapy_pyngcgui_gcmc.txt
+│   │   ├── gmoccapy_right_panel.ini
+│   │   ├── gmoccapy_sim_hardware_button.ini
+│   │   ├── gmoccapy_tool_sensor.ini
+│   │   ├── gmoccapy_tool_sensor.para
+│   │   ├── gmoccapy_with_user_tabs.ini
+│   │   ├── gmoccapy_with_user_tabs.txt
+│   │   ├── h_buttonlist.glade
+│   │   ├── h_buttonlist.hal
+│   │   ├── hallib -> /usr/share/linuxcnc/hallib
+│   │   ├── jogwheel.glade
+│   │   ├── jogwheel.hal
+│   │   ├── lathe.tbl
+│   │   ├── left.hal
+│   │   ├── left_panel.hal
+│   │   ├── macros
+│   │   │   ├── change.ngc
+│   │   │   ├── go_to_position.ngc
+│   │   │   ├── halo_world.ngc
+│   │   │   ├── i_am_lost.ngc
+│   │   │   ├── images
+│   │   │   │   ├── goto_x_y_z.png
+│   │   │   │   ├── i_am_lost.png
+│   │   │   │   └── macro_8.png
+│   │   │   ├── increment.ngc
+│   │   │   ├── jog_around.ngc
+│   │   │   ├── macro_0.ngc
+│   │   │   ├── macro_1.ngc
+│   │   │   ├── macro_10.ngc
+│   │   │   ├── macro_11.ngc
+│   │   │   ├── macro_12.ngc
+│   │   │   ├── macro_13.ngc
+│   │   │   ├── macro_14.ngc
+│   │   │   ├── macro_15.ngc
+│   │   │   ├── macro_2.ngc
+│   │   │   ├── macro_3.ngc
+│   │   │   ├── macro_4.ngc
+│   │   │   ├── macro_5.ngc
+│   │   │   ├── macro_6.ngc
+│   │   │   ├── macro_7.ngc
+│   │   │   ├── macro_8.ngc
+│   │   │   ├── macro_9.ngc
+│   │   │   ├── macro_Instructions.txt
+│   │   │   └── on_abort.ngc
+│   │   ├── pendant.glade
+│   │   ├── pendant.hal
+│   │   ├── position.txt
+│   │   ├── pyngcgui.ui
+│   │   ├── python
+│   │   │   ├── remap.py
+│   │   │   ├── stdglue.py
+│   │   │   └── toplevel.py
+│   │   ├── sim.var
+│   │   ├── sim.var.bak
+│   │   ├── simulated_home.hal
+│   │   ├── simulated_home_lathe.hal
+│   │   ├── spindle_sim.hal
+│   │   ├── tool.tbl
+│   │   ├── tool_sensor.glade
+│   │   ├── tool_sensor.hal
+│   │   ├── tool_sensor.para
+│   │   ├── v_buttonlist.glade
+│   │   ├── v_buttonlist.hal
+│   │   ├── vcp_box.glade
+│   │   └── vcp_box.hal
+│   └── sim.tklinuxcnc
+│       ├── README
+│       ├── README_es
+│       ├── hallib -> /usr/share/linuxcnc/hallib
+│       ├── ldelta.ini
+│       ├── screwcompX.dat
+│       ├── servo_sim.ini
+│       ├── sim.tbl
+│       ├── sim.var
+│       ├── sim.var.bak
+│       ├── tklinuxcnc.ini
+│       └── tripod.ini
+├── nc_files
+│   ├── examples -> /usr/share/linuxcnc/ncfiles
+│   ├── gcmc_lib -> /usr/share/linuxcnc/ncfiles/gcmc_lib
+│   ├── gladevcp_lib -> /usr/share/linuxcnc/ncfiles/gladevcp_lib
+│   ├── ngcgui_lib -> /usr/share/linuxcnc/ncfiles/ngcgui_lib
+│   ├── readme.ngc
+│   └── remap_lib -> /usr/share/linuxcnc/ncfiles/remap_lib
+├── panic_events.jsonl
+└── subroutines
+    ├── M101.ngc
+    └── park.ngc
+
+18 directories, 158 files
