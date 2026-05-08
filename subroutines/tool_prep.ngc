@@ -1,5 +1,0 @@
-( tool_prep - called by T remap )
-( captures selected pocket into #31 for tool_change.ngc to use )
-O<tool_prep> sub
-  #31 = #<selected_pocket>
-O<tool_prep> endsub

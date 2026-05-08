@@ -1,7 +1,6 @@
-( tool_change - called by M6 remap )
+( tool_change - motion sequence, called by Python M6 remap )
 ( rack positions: pocket 1-4 at X=100,200,300,400 Y=380 )
-( #31 = next pocket, set by tool_prep.ngc at T-time )
-( #32 = current pocket, persisted across calls )
+( #<next_pocket> and #<current_pocket> set by python/toplevel.py )
 O<tool_change> sub
 
   #<rack_y>     = 380
@@ -11,11 +10,12 @@ O<tool_change> sub
   #<dwell>      = 1
   #<feed>       = 3000
 
-  #<current_x>  = [#32 * 100]
-  #<next_x>     = [#31 * 100]
+  #<current_x>  = [#<current_pocket> * 100]
+  #<next_x>     = [#<next_pocket> * 100]
 
   M05
   G53 G0 Z[#<clear_z>]
+  G49                                    ( cancel tool length offset before rack moves )
 
   O100 if [#<tool_in_spindle> GT 0]
     G53 G0 X[#<current_x>] Y[#<approach_y>]
@@ -30,8 +30,6 @@ O<tool_change> sub
   G4 P[#<dwell>]
   G53 G0 Y[#<approach_y>]
   G53 G0 Z[#<clear_z>]
-
-  #32 = [#31]
-  M61 Q[#<selected_tool>]
+  G43 H[#<next_tool>]                    ( apply new tool length offset )
 
 O<tool_change> endsub

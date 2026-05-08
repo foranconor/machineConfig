@@ -24,11 +24,13 @@ for f in "$REPO_DIR/hal/"*.hal; do
     [[ -f "$f" ]] && cp "$f" "$CONFIG_DIR/"
 done
 
-# Subroutines and M-codes
+# Subroutines, M-codes, and Python remaps
 mkdir -p "$CONFIG_DIR/subroutines"
 mkdir -p "$CONFIG_DIR/mcodes"
+mkdir -p "$CONFIG_DIR/python"
 cp -r "$REPO_DIR/subroutines/." "$CONFIG_DIR/subroutines/"
 cp -r "$REPO_DIR/mcodes/."      "$CONFIG_DIR/mcodes/"
+cp -r "$REPO_DIR/python/."      "$CONFIG_DIR/python/"
 
 # Standard hallib symlink (system resource, not copied)
 ln -sfn /usr/share/linuxcnc/hallib "$CONFIG_DIR/hallib"

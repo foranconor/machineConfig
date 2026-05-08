@@ -17,6 +17,10 @@ find "$CONFIG_DIR/subroutines" -maxdepth 1 -name "*.ngc" -exec cp {} "$REPO_DIR/
 mkdir -p "$REPO_DIR/mcodes"
 find "$CONFIG_DIR/mcodes" -maxdepth 1 -name "*.ngc" -exec cp {} "$REPO_DIR/mcodes/" \;
 
+# Python remaps
+mkdir -p "$REPO_DIR/python"
+find "$CONFIG_DIR/python" -maxdepth 1 -name "*.py" -exec cp {} "$REPO_DIR/python/" \;
+
 # Custom HAL files (skip stock and external files)
 SKIP_HALS=(core_sim.hal sim_spindle_encoder.hal axis_manualtoolchange.hal simulated_home.hal panic_controller.hal)
 for f in "$CONFIG_DIR/"*.hal; do
