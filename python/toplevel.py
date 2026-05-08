@@ -1,1 +1,1 @@
-from remap import *
+import remap
