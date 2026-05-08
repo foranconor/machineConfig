@@ -1,10 +1,10 @@
 ( tool_change - motion sequence, called by Python M6 remap )
-( rack positions: pocket 1-4 at X=100,200,300,400 Y=380 )
-( #<next_pocket> and #<current_pocket> set by python/toplevel.py )
+( rack positions: pocket 1-4 at X=100,200,300,400 Y=780 )
+( #<next_pocket> and #<current_pocket> set by python/remap.py )
 O<tool_change> sub
 
-  #<rack_y>     = 380
-  #<approach_y> = 300
+  #<rack_y>     = 780
+  #<approach_y> = 700
   #<change_z>   = 50
   #<clear_z>    = 100
   #<dwell>      = 1
@@ -23,6 +23,7 @@ O<tool_change> sub
     G53 G1 F[#<feed>] Y[#<rack_y>]
     G4 P[#<dwell>]
     G53 G0 Z[#<clear_z>]
+    M61 Q0                               ( spindle empty — show cone in UI )
   O100 endif
 
   G53 G0 X[#<next_x>] Y[#<rack_y>]
@@ -32,4 +33,5 @@ O<tool_change> sub
   G53 G0 Z[#<clear_z>]
   M61 Q[#<next_tool>]
   G43 H[#<next_tool>]
+
 O<tool_change> endsub [1]
