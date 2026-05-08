@@ -1,0 +1,94 @@
+=== DEPLOYED FILES ===
+--- python/remap.py ---
+import emccanon
+from interpreter import INTERP_OK
+
+def m6_prolog(self, **words):
+    try:
+        if self.selected_pocket < 0:
+            return "T%d: not in tool table" % self.selected_tool
+        self.params["tool_in_spindle"] = float(self.current_pocket)
+        self.params["current_pocket"]  = float(self.current_pocket)
+        self.params["next_pocket"]     = float(self.selected_pocket)
+        self.params["next_tool"]       = float(self.selected_tool)
+        return INTERP_OK
+    except Exception as e:
+        return str(e)
+
+def m6_epilog(self, **words):
+    try:
+        if self.return_value > 0.5:
+            emccanon.CHANGE_TOOL(self.selected_pocket)
+            self.set_tool_parameters()
+            return INTERP_OK
+        return "tool_change returned %.1f, expected positive" % self.return_value
+    except Exception as e:
+        return str(e)
+
+--- python/toplevel.py ---
+from remap import *
+
+--- myCoolMachine.ini [PYTHON] and [RS274NGC] ---
+[PYTHON]
+TOPLEVEL                = python/toplevel.py
+PATH_PREPEND            = python
+
+[RS274NGC]
+PARAMETER_FILE          = myCoolMachine.var
+
+[RS274NGC]
+PARAMETER_FILE          = myCoolMachine.var
+SUBROUTINE_PATH         = subroutines
+USER_M_PATH             = mcodes
+REMAP                   = M6 modalgroup=6 prolog=m6_prolog ngc=tool_change epilog=m6_epilog
+
+[EMCMOT]
+EMCMOT                  = motmod
+COMM_TIMEOUT            = 1.0
+BASE_PERIOD             = 0
+SERVO_PERIOD            = 1000000
+
+=== PYTHON IMPORT TEST ===
+sys.path: ['', '/usr/lib/python313.zip', '/usr/lib/python3.13', '/usr/lib/python3.13/lib-dynload', '/usr/local/lib/python3.13/dist-packages', '/usr/lib/python3/dist-packages']
+import emccanon: FAILED — No module named 'emccanon'
+import interpreter: FAILED — No module named 'interpreter'
+import linuxcnc: OK
+remap.py load FAILED: No module named 'emccanon'
+
+=== LINUXCNC PRINT LOG (last 80 lines) ===
+RUN_IN_PLACE=no
+LINUXCNC_DIR=
+LINUXCNC_BIN_DIR=/usr/bin
+LINUXCNC_TCL_DIR=/usr/lib/tcltk/linuxcnc
+LINUXCNC_SCRIPT_DIR=
+LINUXCNC_RTLIB_DIR=/usr/lib/linuxcnc/modules
+LINUXCNC_CONFIG_DIR=
+LINUXCNC_LANG_DIR=/usr/lib/tcltk/linuxcnc/msgs
+INIVAR=inivar
+HALCMD=halcmd
+LINUXCNC_EMCSH=/usr/bin/wish8.6
+INIFILE=/home/conor/linuxcnc/configs/myCoolMachine/myCoolMachine.ini
+VERSION=1.1
+PARAMETER_FILE=myCoolMachine.var
+TPMOD=
+HOMEMOD=
+TASK=milltask
+HALUI=halui
+DISPLAY=axis
+COORDINATES=X Y Z
+KINEMATICS=trivkins
+Starting LinuxCNC server program: linuxcncsvr
+Loading Real Time OS, RTAPI, and HAL_LIB modules
+Starting LinuxCNC IO program: io
+Starting HAL User Interface program: halui
+Starting TASK program: milltask
+Starting DISPLAY program: axis
+Removing HAL_LIB, RTAPI, and Real Time OS modules
+Removing NML shared memory segments
+
+=== LINUXCNC DEBUG LOG (last 80 lines) ===
+Can not find -sec DISPLAY -var INTRO_GRAPHIC -num 1 
+Can not find -sec DISPLAY -var INTRO_TIME -num 1 
+20633
+Stopping realtime threads
+Unloading hal components
