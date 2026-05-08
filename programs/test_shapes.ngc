@@ -50,19 +50,39 @@ G1 Y100
 G0 Z20
 
 ( ================================================================ )
-( T19 - 20mm surfacing bit: facing passes 150x80mm area           )
+( T19 - 20mm surfacing bit: serpentine facing passes 150x80mm     )
 ( ================================================================ )
 T19 M6
 M03 S12000
-#<step> = 18                  ( stepover: slightly less than tool diameter )
-#<y>    = 10
-O100 while [#<y> LE 90]
-    G0 X450 Y[#<y>]
-    G1 F4000 Z-1
-    G1 X600
-    G0 Z5
-    #<y> = [#<y> + #<step>]
-O100 endwhile
+#<x_start> = 450
+#<x_end>   = 600
+#<y_start> = 10
+#<y_end>   = 90
+#<step>    = 18
+#<radius>  = [#<step> / 2]
+#<y>       = #<y_start>
+#<dir>     = 1                ( 1 = going right, -1 = going left )
+
+G0 X[#<x_start>] Y[#<y>]
+G1 F4000 Z-1                  ( single plunge, stay at depth for all passes )
+
+O200 while [#<y> LE #<y_end>]
+  #<next_y> = [#<y> + #<step>]
+  O210 if [#<dir> GT 0]
+    G1 X[#<x_end>]
+    O220 if [#<next_y> LE #<y_end>]
+      G3 X[#<x_end>] Y[#<next_y>] I0 J[#<radius>]
+    O220 endif
+  O210 else
+    G1 X[#<x_start>]
+    O230 if [#<next_y> LE #<y_end>]
+      G2 X[#<x_start>] Y[#<next_y>] I0 J[#<radius>]
+    O230 endif
+  O210 endif
+  #<y>   = #<next_y>
+  #<dir> = [#<dir> * -1]
+O200 endwhile
+
 G0 Z20
 
 ( ================================================================ )

@@ -35,4 +35,14 @@ cp -r "$REPO_DIR/python/."      "$CONFIG_DIR/python/"
 # Standard hallib symlink (system resource, not copied)
 ln -sfn /usr/share/linuxcnc/hallib "$CONFIG_DIR/hallib"
 
+# State dir — persists across deploys, not tracked in repo
+mkdir -p "$CONFIG_DIR/state"
+if [[ ! -f "$CONFIG_DIR/state/tool_restore.ngc" ]]; then
+    cat > "$CONFIG_DIR/state/tool_restore.ngc" <<'EOF'
+O<tool_restore> sub
+  M61 Q0
+O<tool_restore> endsub
+EOF
+fi
+
 echo "Done."
