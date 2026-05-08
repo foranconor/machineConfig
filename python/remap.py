@@ -1,5 +1,3 @@
-import emccanon
-
 def m6_prolog(self, **words):
     try:
         if self.selected_pocket < 0:
@@ -15,7 +13,6 @@ def m6_prolog(self, **words):
 def m6_epilog(self, **words):
     try:
         if self.return_value > 0.5:
-            emccanon.CHANGE_TOOL(self.selected_pocket)
             self.set_tool_parameters()
             return 0
         return "tool_change returned %.1f, expected positive" % self.return_value
