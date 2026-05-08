@@ -1,0 +1,5 @@
+# LinuxCNC runtime files — written by LinuxCNC, not config
+*.var
+*.var.bak
+*.bak
+position*.txt
