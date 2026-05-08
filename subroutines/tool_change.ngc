@@ -1,6 +1,7 @@
 ( tool_change - called by M6 remap )
 ( rack positions: pocket 1-4 at X=100,200,300,400 Y=380 )
-( #32 persists the current pocket across calls since #<current_pocket> is not reliable )
+( #31 = next pocket, set by tool_prep.ngc at T-time )
+( #32 = current pocket, persisted across calls )
 O<tool_change> sub
 
   #<rack_y>     = 380
@@ -11,7 +12,7 @@ O<tool_change> sub
   #<feed>       = 3000
 
   #<current_x>  = [#32 * 100]
-  #<next_x>     = [#<selected_pocket> * 100]
+  #<next_x>     = [#31 * 100]
 
   M05
   G53 G0 Z[#<clear_z>]
@@ -30,7 +31,7 @@ O<tool_change> sub
   G53 G0 Y[#<approach_y>]
   G53 G0 Z[#<clear_z>]
 
-  #32 = [#<selected_pocket>]
+  #32 = [#31]
   M61 Q[#<selected_tool>]
 
 O<tool_change> endsub
