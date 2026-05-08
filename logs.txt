@@ -1,48 +1,7 @@
-LINUXCNC - 2.9.8
-Machine configuration directory is '/home/conor/linuxcnc/configs/myCoolMachine'
-Machine configuration file is 'myCoolMachine.ini'
-Starting LinuxCNC...
-linuxcnc TPMOD=tpmod HOMEMOD=homemod EMCMOT=motmod
-Note: Using POSIX realtime
-Found file(lib): /usr/share/linuxcnc/hallib/core_sim.hal
-Found file(lib): /usr/share/linuxcnc/hallib/sim_spindle_encoder.hal
-Found file(lib): /usr/share/linuxcnc/hallib/simulated_home.hal
-Found file(REL): ./panic_controller.hal
-2026-05-09 00:58:40,558 INFO panic_controller: safety_mcu running — heartbeat timeout 5.0s
-2026-05-09 00:58:40,560 INFO panic_controller: connected to LinuxCNC task
-2026-05-09 00:58:40,561 INFO panic_controller: serial open: /dev/ttyACM0
-2026-05-09 00:58:40,566 INFO panic_controller: TRANS t=18474s PANIC -> CLEAR
-2026-05-09 00:58:40,569 INFO panic_controller: EVENT t=18474s [safety] Fault cleared. Press the ack button when you're ready to resume.
-2026-05-09 00:58:40,572 INFO panic_controller: CLEARED t=18474s USB/CDC0: Lost connection to LinuxCNC
-Found file(REL): ./myCoolMachine.hal
-2026-05-09 00:58:40,574 INFO panic_controller: EVENT t=18474s [usb] LinuxCNC connection established.
-2026-05-09 00:58:41,013 INFO panic_controller: LinuxCNC estop — sending ESTOP to controller
-2026-05-09 00:58:41,086 INFO panic_controller: CLEARED t=18474s SOFTWARE/LinuxCNC: Software estop from LinuxCNC
-note: MAXV     max: 200.000 units/sec 12000.000 units/min
-note: LJOG     max: 200.000 units/sec 12000.000 units/min
-note: LJOG default: 30.480 units/sec 1828.800 units/min
-note: jog_order='XYZ'
-note: jog_invert=set()
-call(remap.m6_prolog): 
-KeyError: 'remap'
+AttributeError: 'tool_result' object has no attribute 'pocket'
+task: main loop took 0.018612 seconds
+task: main loop took 0.020608 seconds
+Traceback (most recent call last):
+  File "/home/conor/linuxcnc/configs/myCoolMachine/mcodes/M100", line 25, in <module>
+    pocket_by_tool = {t.id: t.pocket for t in stat.tool_table if t.id != 0}
 
-2026-05-09 00:59:30,313 INFO panic_controller: TRANS t=18523s CLEAR -> READY
-2026-05-09 00:59:30,316 INFO panic_controller: EVENT t=18523s [safety] Ack received ��� confirming inputs stable for 150 ms.
-2026-05-09 00:59:30,473 INFO panic_controller: TRANS t=18524s READY -> OK
-2026-05-09 00:59:30,475 INFO panic_controller: EVENT t=18524s [safety] All clear. Machine enabled.
-2026-05-09 00:59:30,494 INFO panic_controller: controller cleared — resetting LinuxCNC estop
-task: main loop took 0.101093 seconds
-task: main loop took 0.020762 seconds
-emc/task/emctask.cc 68: interp_error: Requested tool 1 not found in the tool table
-Requested tool 1 not found in the tool table
-task: main loop took 0.018969 seconds
-call(remap.m6_prolog): 
-KeyError: 'remap'
-
-emc/task/emctask.cc 68: interp_error: pycall(remap.m6_prolog) failed
-pycall(remap.m6_prolog) failed
-task: main loop took 0.019632 seconds
-Shutting down and cleaning up LinuxCNC...
-task: 144421 cycles, min=0.000031, max=0.101093, avg=0.001094, 4 latency excursions (> 10x expected cycle time of 0.001000s)
-2026-05-09 01:01:19,011 INFO panic_controller: safety_mcu stopped
-Note: Using POSIX realtime
