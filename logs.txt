@@ -1,0 +1,38 @@
+LINUXCNC - 2.9.8
+Machine configuration directory is '/home/conor/linuxcnc/configs/myCoolMachine'
+Machine configuration file is 'myCoolMachine.ini'
+Starting LinuxCNC...
+linuxcnc TPMOD=tpmod HOMEMOD=homemod EMCMOT=motmod
+Note: Using POSIX realtime
+Found file(lib): /usr/share/linuxcnc/hallib/core_sim.hal
+Found file(lib): /usr/share/linuxcnc/hallib/sim_spindle_encoder.hal
+Found file(lib): /usr/share/linuxcnc/hallib/simulated_home.hal
+Found file(REL): ./panic_controller.hal
+2026-05-08 23:33:00,109 INFO panic_controller: safety_mcu running — heartbeat timeout 5.0s
+2026-05-08 23:33:00,110 INFO panic_controller: connected to LinuxCNC task
+2026-05-08 23:33:00,111 INFO panic_controller: serial open: /dev/ttyACM0
+option 'remainder' - missing '=<value>: 24:REMAP = T  remainder   ngc=tool_prep
+
+emc/task/emctaskmain.cc 3084: can't initialize interpreter
+note: MAXV     max: 200.000 units/sec 12000.000 units/min
+note: LJOG     max: 200.000 units/sec 12000.000 units/min
+note: LJOG default: 30.480 units/sec 1828.800 units/min
+waiting for s.joints<0>, s.kinematics_type<0>
+waiting for s.joints<0>, s.kinematics_type<0>
+waiting for s.joints<0>, s.kinematics_type<0>
+waiting for s.joints<0>, s.kinematics_type<0>
+waiting for s.joints<0>, s.kinematics_type<0>
+waiting for s.joints<0>, s.kinematics_type<0>
+waiting for s.joints<0>, s.kinematics_type<0>
+waiting for s.joints<0>, s.kinematics_type<0>
+waiting for s.joints<0>, s.kinematics_type<0>
+A configuration error is preventing LinuxCNC from starting.
+More information may be available when running from a terminal.
+Shutting down and cleaning up LinuxCNC...
+2026-05-08 23:33:09,782 INFO panic_controller: safety_mcu stopped
+Note: Using POSIX realtime
+LinuxCNC terminated with an error.  You can find more information in the log:
+    /home/conor/linuxcnc_debug.txt
+and
+    /home/conor/linuxcnc_print.txt
+as well as in the output of the shell command 'dmesg' and in the terminal
