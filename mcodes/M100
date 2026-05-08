@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+# M100 - pre-flight tool check
+# Place as first line of every program.
+# Scans the program for T words and aborts if any tool has no rack position (P0).
+
+import sys
+import re
+import linuxcnc
+
+stat = linuxcnc.stat()
+stat.poll()
+
+program_file = stat.file
+if not program_file:
+    sys.exit(0)
+
+with open(program_file, 'r') as f:
+    content = f.read()
+
+# Strip comments before scanning for T words
+clean = re.sub(r'\(.*?\)', '', content, flags=re.DOTALL)
+clean = re.sub(r';[^\n]*', '', clean)
+t_numbers = sorted(set(int(m) for m in re.findall(r'[Tt](\d+)', clean) if int(m) > 0))
+
+pocket_by_tool = {t.id: t.pocket for t in stat.tool_table if t.id != 0}
+
+errors = []
+for t in t_numbers:
+    if t not in pocket_by_tool:
+        errors.append(f"  T{t} - not in tool table")
+    elif pocket_by_tool[t] == 0:
+        errors.append(f"  T{t} - not in rack (P0), load tool and update table")
+
+if errors:
+    print("PRE-FLIGHT FAILED:", file=sys.stderr)
+    for e in errors:
+        print(e, file=sys.stderr)
+    sys.exit(1)
+
+sys.exit(0)

@@ -1,0 +1,71 @@
+( test_shapes.ngc )
+( mills 4 shapes across X, one per racked tool )
+( stock: ~600mm x 120mm, ~20mm thick )
+( G54: X0 Y0 at front-left corner of stock, Z0 at top surface )
+
+M100                          ( pre-flight: abort if any tool not in rack )
+
+G17 G21 G90 G54               ( XY plane, mm, absolute, work coords )
+G0 Z20                        ( safe height )
+
+( ================================================================ )
+( T7 - 6mm upcut spiral: square pocket outline 60x60mm            )
+( ================================================================ )
+T7 M6
+M03 S18000
+G0 X20 Y20
+G1 F2000 Z-3
+G1 X80
+G1 Y80
+G1 X20
+G1 Y20
+G0 Z20
+
+( ================================================================ )
+( T12 - 12mm straight bit: arc/circle 50mm radius                 )
+( ================================================================ )
+T12 M6
+M03 S16000
+G0 X225 Y60                   ( center of arc )
+G0 Z-3
+G2 F1800 I-50 J0               ( full circle, 50mm radius )
+G0 Z20
+
+( ================================================================ )
+( T3 - 3mm V-bit: three V-grooves 80mm long                       )
+( ================================================================ )
+T3 M6
+M03 S20000
+G0 X320 Y20
+G1 F1200 Z-2
+G1 Y100
+G0 Z20
+G0 X360 Y20
+G1 F1200 Z-2
+G1 Y100
+G0 Z20
+G0 X400 Y20
+G1 F1200 Z-2
+G1 Y100
+G0 Z20
+
+( ================================================================ )
+( T19 - 20mm surfacing bit: facing passes 150x80mm area           )
+( ================================================================ )
+T19 M6
+M03 S12000
+#<step> = 18                  ( stepover: slightly less than tool diameter )
+#<y>    = 10
+O100 while [#<y> LE 90]
+    G0 X450 Y[#<y>]
+    G1 F4000 Z-1
+    G1 X600
+    G0 Z5
+    #<y> = [#<y> + #<step>]
+O100 endwhile
+G0 Z20
+
+( ================================================================ )
+M05
+O<park> call
+M30

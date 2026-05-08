@@ -1,0 +1,17 @@
+( spindle warmup - step through increasing speeds with dwell at each )
+O<warmup> sub
+
+  #<speed>     = 4000
+  #<max_speed> = 16000
+  #<step>      = 4000
+  #<dwell>     = 30      ( seconds at each speed )
+
+  O100 while [#<speed> LE #<max_speed>]
+    M03 S[#<speed>]
+    G4 P[#<dwell>]
+    #<speed> = [#<speed> + #<step>]
+  O100 endwhile
+
+  M05
+
+O<warmup> endsub

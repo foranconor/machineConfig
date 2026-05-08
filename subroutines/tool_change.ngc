@@ -1,0 +1,36 @@
+( tool_change - called by M6 remap )
+( rack positions: pocket 1-4 at X=100,200,300,400 Y=380 )
+( #32 persists the current pocket across calls since #<current_pocket> is not reliable )
+O<tool_change> sub
+
+  #<rack_y>     = 380
+  #<approach_y> = 300
+  #<change_z>   = 50
+  #<clear_z>    = 100
+  #<dwell>      = 1
+  #<feed>       = 3000
+
+  #<current_x>  = [#32 * 100]
+  #<next_x>     = [#<selected_pocket> * 100]
+
+  M05
+  G53 G0 Z[#<clear_z>]
+
+  O100 if [#<tool_in_spindle> GT 0]
+    G53 G0 X[#<current_x>] Y[#<approach_y>]
+    G53 G1 F[#<feed>] Z[#<change_z>]
+    G53 G1 F[#<feed>] Y[#<rack_y>]
+    G4 P[#<dwell>]
+    G53 G0 Z[#<clear_z>]
+  O100 endif
+
+  G53 G0 X[#<next_x>] Y[#<rack_y>]
+  G53 G1 F[#<feed>] Z[#<change_z>]
+  G4 P[#<dwell>]
+  G53 G0 Y[#<approach_y>]
+  G53 G0 Z[#<clear_z>]
+
+  #32 = [#<selected_pocket>]
+  M61 Q[#<selected_tool>]
+
+O<tool_change> endsub

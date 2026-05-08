@@ -10,7 +10,14 @@ mkdir -p "$CONFIG_DIR"
 
 # Repo-owned files
 cp "$REPO_DIR/myCoolMachine.ini" "$CONFIG_DIR/"
-cp "$REPO_DIR/tools.tbl"         "$CONFIG_DIR/"
+
+read -rp "Deploy tools.tbl? [y/N] " deploy_tools
+if [[ "${deploy_tools,,}" == "y" ]]; then
+    cp "$REPO_DIR/tools.tbl" "$CONFIG_DIR/"
+    echo "Tool table deployed."
+else
+    echo "Skipping tools.tbl."
+fi
 
 # HAL files from repo (flat into config root)
 for f in "$REPO_DIR/hal/"*.hal; do
@@ -25,13 +32,5 @@ cp -r "$REPO_DIR/mcodes/."      "$CONFIG_DIR/mcodes/"
 
 # Standard hallib symlink (system resource, not copied)
 ln -sfn /usr/share/linuxcnc/hallib "$CONFIG_DIR/hallib"
-
-# Set as default config so linuxcnc skips the picker on startup
-RCFILE="$HOME/.linuxcncrc"
-if grep -q '^\[PICKCONFIG\]' "$RCFILE" 2>/dev/null; then
-    sed -i "s|^LAST_CONFIG.*|LAST_CONFIG = $CONFIG_DIR/myCoolMachine.ini|" "$RCFILE"
-else
-    printf '\n[PICKCONFIG]\nLAST_CONFIG = %s/myCoolMachine.ini\n' "$CONFIG_DIR" >> "$RCFILE"
-fi
 
 echo "Done."

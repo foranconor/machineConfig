@@ -1,4 +1,6 @@
 ( park - move to safe home position )
-( TODO: define machine-specific park coordinates )
 O<park> sub
+  G0 Z100
+  M05
+  X0 Y399
 O<park> endsub
