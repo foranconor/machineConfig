@@ -30,7 +30,4 @@ O<tool_change> sub
   G4 P[#<dwell>]
   G53 G0 Y[#<approach_y>]
   G53 G0 Z[#<clear_z>]
-  G43 H[#<next_tool>]                    ( apply new tool length offset )
-  M61 Q[#<next_tool>]                    ( update tool in spindle )
-
-O<tool_change> endsub
+O<tool_change> endsub [1]
