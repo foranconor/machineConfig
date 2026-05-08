@@ -5,6 +5,7 @@
 
 import sys
 import re
+import os
 import linuxcnc
 
 stat = linuxcnc.stat()
@@ -22,7 +23,14 @@ clean = re.sub(r'\(.*?\)', '', content, flags=re.DOTALL)
 clean = re.sub(r';[^\n]*', '', clean)
 t_numbers = sorted(set(int(m) for m in re.findall(r'[Tt](\d+)', clean) if int(m) > 0))
 
-pocket_by_tool = {t.id: t.pocket for t in stat.tool_table if t.id != 0}
+# stat.tool_table doesn't expose pocket numbers in LinuxCNC 2.9 — parse the file directly
+config_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+pocket_by_tool = {}
+with open(os.path.join(config_dir, 'tools.tbl')) as f:
+    for line in f:
+        m = re.match(r'T(\d+)\s+P(\d+)', line.strip(), re.IGNORECASE)
+        if m:
+            pocket_by_tool[int(m.group(1))] = int(m.group(2))
 
 errors = []
 for t in t_numbers:
