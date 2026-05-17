@@ -1,0 +1,49 @@
+@startuml
+skinparam DPI 200
+title Emergency Stop Sequence, Heartbeat Timeout
+
+participant "Panic Controller" as PC
+participant "PC Module\n(Motion Controller)" as PCM
+participant "Motor Driver" as MD
+participant "Motor" as M
+
+== Normal Operation ==
+activate M #coral
+PC -> PCM : Heartbeat
+PCM -> MD : CSP Target Position
+MD --> PCM : Actual Position / Status
+PC -> PCM : Heartbeat
+PCM -> MD : CSP Target Position
+MD --> PCM : Actual Position / Status
+PC -> PCM : Heartbeat
+
+== Panic Controller Dies ==
+destroy PC
+
+PCM -> MD : CSP Target Position
+MD --> PCM : Actual Position / Status
+PCM -> MD : CSP Target Position
+MD --> PCM : Actual Position / Status
+
+PCM -> PCM : Heartbeat Missing
+note right of PCM : Timeout period
+
+PCM -> PCM : Panicked
+activate PCM #orange
+
+PCM -> MD : EtherCAT FastStop
+activate MD #orange
+
+note right of MD : Response time
+
+MD -> M : Decelerate
+note right of M : Controlled Stop
+
+M --> MD : Zero Speed
+deactivate M
+deactivate MD
+
+MD -> PCM : ServoReady
+deactivate PCM
+
+@enduml

@@ -1,0 +1,61 @@
+@startuml
+skinparam DPI 200
+title Emergency Stop Sequence, Happy Path
+
+participant "E-Stop" as ES
+participant "Panic Controller" as PC
+participant "PC Module\n(Motion Controller)" as PCM
+participant "Motor Driver" as MD
+participant "Motor" as M
+
+== Normal Operation ==
+activate M #coral
+PC -> PCM : Heartbeat
+PCM -> MD : CSP Target Position
+MD --> PCM : Actual Position / Status
+PC -> PCM : Heartbeat
+PCM -> MD : CSP Target Position
+MD --> PCM : Actual Position / Status
+
+== E-Stop Pressed ==
+ES -> PC : 0V
+activate PC #orange
+note right of PC : Debounce starts
+
+PC -> PCM : Heartbeat
+PCM -> MD : CSP Target Position
+MD --> PCM : Actual Position / Status
+
+note right of PC : Confirming...
+
+PC -> PCM : Heartbeat
+PCM -> MD : CSP Target Position
+MD --> PCM : Actual Position / Status
+
+note right of PC : Confirmed
+deactivate PC
+
+== Panic ==
+PC -> PCM : Panic
+activate PCM #orange
+
+PCM -> MD : EtherCAT FastStop
+activate MD #orange
+
+PCM -> MD : CSP Target Position
+note left of PCM : Continues until stopped
+
+MD -> M : Decelerate
+note right of M : Controlled Stop
+
+M --> MD : Zero Speed
+deactivate M
+deactivate MD
+
+MD -> PCM : ServoReady
+deactivate PCM
+
+PC -> PCM : Heartbeat
+note right of PCM : System safe, awaiting reset
+
+@enduml

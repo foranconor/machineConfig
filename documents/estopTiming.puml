@@ -1,0 +1,47 @@
+@startuml
+skinparam DPI 200
+title Emergency Stop Timing, happy path
+
+robust "Contactor" as Contactor
+Contactor has 24V,0V
+robust "Controlled Stop" as ControlledStop
+ControlledStop has 24V,0V
+robust "Zero Speed" as ZeroSpeed
+ZeroSpeed has 24V,0V
+robust "Emergency Stop" as EmergencyStop
+EmergencyStop has 24V,0V
+concise "Watchdog" as Watchdog
+analog "Motor Speed" as MotorSpeed
+
+@0
+Contactor is 24V
+ControlledStop is 24V
+ZeroSpeed is 0V
+EmergencyStop is 24V
+Watchdog is Idle
+MotorSpeed is 100
+
+@1
+EmergencyStop is 0V
+
+@2
+ControlledStop is 0V
+Watchdog is Alert
+
+@3
+MotorSpeed is 100
+
+@4
+MotorSpeed is 0
+ZeroSpeed is 24V
+
+@5
+Watchdog is Idle
+
+EmergencyStop@1 <-> @2 : Debounced
+MotorSpeed@2 <-> @3 : Motor Driver Response Time
+Watchdog@4 <-> @5 : Watchdog Confirms Zero
+
+highlight 3 to 4 #seashell : Braking
+
+@enduml

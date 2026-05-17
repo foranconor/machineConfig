@@ -1,0 +1,86 @@
+@startuml
+
+title CNC Machine Logical Deployment
+
+card "CNC Machining Center" as CNC {
+
+  entity "Emergency Stop" as EStop #mintcream
+  entity "Human Presence" as HumanPresence #mintcream
+  entity "Bumpers" as Bumpers #seashell
+  entity "Laser Barrier" as LaserBarrier #seashell
+  node "PC" as PC {
+    process "LinuxCNC" as LinuxCNC {
+      component "PanicController Component" as PanicControllerComponent #mintcream
+      component "Motion Control" as MotionControl #mintcream
+
+    }
+    process "Panic Logs" as PanicLogs #mintcream
+    process "Paddle Server" as PaddleServer
+    process "Record Keeper" as RecordKeeper #seashell
+  
+    folder "File System" as FileSystem {
+      file "Machine Config" as MachineConfig
+      file "Panic Log" as PanicLogsFile #mintcream
+      folder "Subroutines" as Subroutines
+      folder "M Codes" as MCodes
+    }
+  
+  }
+
+  node "Support PC" as SupportPC #seashell {
+    folder "File System" as SupportFileSystem {
+      folder "Programs" as Programs
+    }
+
+    database "Database" as Database #seashell
+  }
+
+
+
+  node "Motor Driver" as MotorDriver #mintcream {
+    control "Periodic Syncronus Position" as CSP    
+    interface "Digital Input" as DigitalInput
+    interface "Digital Output" as DigitalOutput
+  }
+
+  node "Spindle VFD" as SpindleVFD #seashell {
+    interface "Digital Input" as VFDDI
+    interface "Digital Output" as VFDDO
+    control "Speed Control" as SpeedControl
+  }
+
+  node "Panic Controller" as PanicController #mintcream {
+    control "Safety" as Safety #mintcream
+    control "Watchdog" as Watchdog #mintcream
+    control "Heartbeat" as Heartbeat #mintcream
+    action "Timeout" as Timeout #mintcream
+  }
+
+  node "Paddle" as Paddle
+
+}
+
+Safety --> DigitalInput #tomato : Controlled Stop
+Watchdog <-- DigitalOutput #tomato : Zero Speed
+PanicLogs <-- PanicLogsFile : Read
+PanicControllerComponent --> PanicLogsFile : Write
+Safety --> PanicControllerComponent #tomato : Panic
+Heartbeat --> PanicControllerComponent #tomato : Heartbeat
+PaddleServer <--> LinuxCNC
+MotionControl <--> CSP : Ethercat
+Paddle <--> PaddleServer : HTTP
+EStop --> Safety #tomato
+HumanPresence --> Safety #tomato
+Bumpers --> Safety #tomato
+LaserBarrier --> Safety #tomato
+Timeout --> Safety #tomato
+RecordKeeper --> Database
+RecordKeeper <--> LinuxCNC
+Programs --> LinuxCNC
+MotionControl <--> SpeedControl : Ethercat
+Safety --> VFDDI #tomato : Controlled Stop
+VFDDO --> Watchdog #tomato : Zero Speed
+RecordKeeper <-- FileSystem : Read
+Watchdog --> Safety #tomato
+
+@enduml

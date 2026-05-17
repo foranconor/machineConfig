@@ -1,0 +1,43 @@
+@startuml
+skinparam DPI 200
+title Emergency Stop Timing, Heartbeat Timeout
+
+concise "Motor Driver" as MotorDriver
+robust "Panic Controller" as PC
+PC has Alive,Dead
+concise "Panic Controller Module" as PCModule
+analog "Motor Speed" as MotorSpeed
+
+@0
+MotorSpeed is 100
+PCModule is Receiving
+PC is Alive
+MotorDriver is ServoOperation
+PC -> PCModule@1 : Heartbeat
+
+@1
+PC is Dead
+
+@2
+PCModule is Missing
+
+@3
+PCModule is Panicked
+PCModule -> MotorDriver@4 : EtherCAT frame
+
+
+
+@5
+MotorDriver is FastStop
+MotorSpeed is 100
+
+@6
+MotorSpeed is 0
+MotorDriver is ServoReady
+
+PCModule@1 <-> @3 : Timeout
+MotorDriver@4 <-> @5 : Response Time
+
+
+highlight 5 to 6 #seashell : Controlled Stop
+@enduml

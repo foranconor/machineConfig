@@ -1,0 +1,34 @@
+@startuml 
+skinparam DPI 300
+title Safety State Machine
+
+state Safe #lightgreen {
+  state NotConnected
+  state PassivePanic : Machine is stopped
+  state PassivePanic : Panic reason still remains
+  state AwaitingAck
+  
+}
+
+state Danger #coral {
+  state Ready
+  state Processing
+  state ActivePanic : A panic has been triggered
+  state ActivePanic : The machine is/could be moving
+}
+
+[*] --> NotConnected
+NotConnected --> AwaitingAck : Connected
+Ready -[#crimson]-> PassivePanic
+PassivePanic --> AwaitingAck : Panic resolved
+Processing --> Ready : Completed
+Ready --> Processing : Start
+Processing -[#crimson]-> ActivePanic
+AwaitingAck --> Ready : Ack
+Ready --> AwaitingAck : Timeout
+ActivePanic --> PassivePanic : Zero Speed
+AwaitingAck -[#crimson]-> PassivePanic
+
+
+note "Red transitions are active error signals" as N1
+@enduml
