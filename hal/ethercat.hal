@@ -1,12 +1,12 @@
 addf lcec.read-all  servo-thread
 addf lcec.write-all servo-thread
 
-loadrt conv_float_s32 count=1
-loadrt conv_s32_float count=1
+loadrt conv_float_s32 names=j0-cmd-conv
+loadrt conv_s32_float names=j0-fb-conv
 addf j0-cmd-scale     servo-thread
 addf j0-fb-scale      servo-thread
-addf conv_float_s32.0 servo-thread
-addf conv_s32_float.0 servo-thread
+addf j0-cmd-conv      servo-thread
+addf j0-fb-conv       servo-thread
 
 # CiA 402 state machine (userspace, ~100 Hz)
 loadusr -Wn cia402-sm python3 python/cia402_sm.py
@@ -23,14 +23,14 @@ unlinkp joint.0.amp-fault-in
 # INPUT_SCALE = 838860.8 counts/mm  (23-bit encoder, nominal 10 mm/rev)
 setp j0-cmd-scale.gain [JOINT_0]INPUT_SCALE
 net j0-pos-cmd-mm   joint.0.motor-pos-cmd  => j0-cmd-scale.in
-net j0-pos-cmd-f    j0-cmd-scale.out       => conv_float_s32.0.in
-net j0-pos-cmd-cnt  conv_float_s32.0.out   => lcec.0.x-drive.target-pos
+net j0-pos-cmd-f    j0-cmd-scale.out       => j0-cmd-conv.in
+net j0-pos-cmd-cnt  j0-cmd-conv.out        => lcec.0.x-drive.target-pos
 
 # --- Position feedback: s32 counts -> float mm ---
 setp j0-fb-scale.gain 1.19209290e-6
-net j0-pos-fb-cnt   lcec.0.x-drive.actual-pos => conv_s32_float.0.in
-net j0-pos-fb-f     conv_s32_float.0.out       => j0-fb-scale.in
-net j0-pos-fb-mm    j0-fb-scale.out            => joint.0.motor-pos-fb
+net j0-pos-fb-cnt   lcec.0.x-drive.actual-pos => j0-fb-conv.in
+net j0-pos-fb-f     j0-fb-conv.out            => j0-fb-scale.in
+net j0-pos-fb-mm    j0-fb-scale.out           => joint.0.motor-pos-fb
 
 # --- CiA 402 enable / fault ---
 net j0-statusword   lcec.0.x-drive.statusword  => cia402-sm.statusword
