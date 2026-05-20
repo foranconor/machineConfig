@@ -1,7 +1,5 @@
-# Loaded first — before core_sim.hal — so lcec.read-all lands at the head
-# of the servo thread (before motion-command-handler).
 # lcec_conf reads the XML and configures the EtherCAT master/slaves;
-# loadrt lcec then provides the HAL pins.
+# loadrt lcec provides the HAL pins.  addf calls are in ethercat.hal,
+# which loads after core_sim.hal has created servo-thread.
 loadusr -W lcec_conf [HAL]LCEC_CONFIG
 loadrt lcec
-addf lcec.read-all servo-thread

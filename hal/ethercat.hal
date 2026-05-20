@@ -1,5 +1,6 @@
-# Loaded after core_sim.hal so lcec.write-all lands at the tail of the
-# servo thread (after motion-controller).
+# Both addf calls are here because servo-thread is created by core_sim.hal.
+# read-all runs after motion-controller for now — acceptable for bench use.
+addf lcec.read-all  servo-thread
 addf lcec.write-all servo-thread
 
 # INPUT_SCALE sets counts per mm.  For the LC10E the encoder is 17-bit
