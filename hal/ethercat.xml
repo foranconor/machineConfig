@@ -1,39 +1,25 @@
 <masters>
   <master idx="0" appTimePeriod="1000000" refClockSyncCycles="1">
     <slave idx="0" type="generic" vid="0x00000766" pid="0x00000402" name="x-drive">
-
-      <!-- Reconfigure RxPDO for CSP: controlword + opmode + target position -->
-      <sdoConfig idx="0x1c12" subIdx="0x00">00</sdoConfig>
-      <sdoConfig idx="0x1600" subIdx="0x00">00</sdoConfig>
-      <sdoConfig idx="0x1600" subIdx="0x01">10 00 40 60</sdoConfig>
-      <sdoConfig idx="0x1600" subIdx="0x02">08 00 60 60</sdoConfig>
-      <sdoConfig idx="0x1600" subIdx="0x03">20 00 7a 60</sdoConfig>
-      <sdoConfig idx="0x1600" subIdx="0x00">03</sdoConfig>
-      <sdoConfig idx="0x1c12" subIdx="0x01">00 16</sdoConfig>
-      <sdoConfig idx="0x1c12" subIdx="0x00">01</sdoConfig>
-
-      <!-- Reconfigure TxPDO for CSP: statusword + actual position + opmode display -->
-      <sdoConfig idx="0x1c13" subIdx="0x00">00</sdoConfig>
-      <sdoConfig idx="0x1a00" subIdx="0x00">00</sdoConfig>
-      <sdoConfig idx="0x1a00" subIdx="0x01">10 00 41 60</sdoConfig>
-      <sdoConfig idx="0x1a00" subIdx="0x02">20 00 64 60</sdoConfig>
-      <sdoConfig idx="0x1a00" subIdx="0x03">08 00 61 60</sdoConfig>
-      <sdoConfig idx="0x1a00" subIdx="0x00">03</sdoConfig>
-      <sdoConfig idx="0x1c13" subIdx="0x01">00 1a</sdoConfig>
-      <sdoConfig idx="0x1c13" subIdx="0x00">01</sdoConfig>
-
       <syncManager idx="2" dir="out">
         <pdo idx="0x1600">
-          <pdoEntry idx="0x6040" subIdx="0x00" bitLen="16" halPin="controlword" halType="u32"/>
-          <pdoEntry idx="0x6060" subIdx="0x00" bitLen="8"  halPin="opmode"      halType="s32"/>
-          <pdoEntry idx="0x607a" subIdx="0x00" bitLen="32" halPin="target-pos"  halType="s32"/>
+          <pdoEntry idx="0x6040" subIdx="0x00" bitLen="16" halPin="controlword"  halType="u32"/>
+          <pdoEntry idx="0x607a" subIdx="0x00" bitLen="32" halPin="target-pos"   halType="s32"/>
+          <pdoEntry idx="0x60b8" subIdx="0x00" bitLen="16" halPin="probe-func"   halType="u32"/>
+          <pdoEntry idx="0x6060" subIdx="0x00" bitLen="8"  halPin="opmode"       halType="s32"/>
+          <pdoEntry idx="0x60ff" subIdx="0x00" bitLen="32" halPin="target-vel"   halType="s32"/>
         </pdo>
       </syncManager>
       <syncManager idx="3" dir="in">
         <pdo idx="0x1a00">
-          <pdoEntry idx="0x6041" subIdx="0x00" bitLen="16" halPin="statusword"  halType="u32"/>
-          <pdoEntry idx="0x6064" subIdx="0x00" bitLen="32" halPin="actual-pos"  halType="s32"/>
-          <pdoEntry idx="0x6061" subIdx="0x00" bitLen="8"  halPin="opmode-fb"   halType="s32"/>
+          <pdoEntry idx="0x603f" subIdx="0x00" bitLen="16" halPin="error-code"   halType="u32"/>
+          <pdoEntry idx="0x6041" subIdx="0x00" bitLen="16" halPin="statusword"   halType="u32"/>
+          <pdoEntry idx="0x6064" subIdx="0x00" bitLen="32" halPin="actual-pos"   halType="s32"/>
+          <pdoEntry idx="0x606c" subIdx="0x00" bitLen="32" halPin="actual-vel"   halType="s32"/>
+          <pdoEntry idx="0x60b9" subIdx="0x00" bitLen="16" halPin="probe-status" halType="u32"/>
+          <pdoEntry idx="0x60ba" subIdx="0x00" bitLen="32" halPin="probe-pos1"   halType="s32"/>
+          <pdoEntry idx="0x60fd" subIdx="0x00" bitLen="32" halPin="dig-in"       halType="u32"/>
+          <pdoEntry idx="0x6061" subIdx="0x00" bitLen="8"  halPin="opmode-fb"    halType="s32"/>
         </pdo>
       </syncManager>
     </slave>
