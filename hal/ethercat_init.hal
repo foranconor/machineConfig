@@ -1,0 +1,4 @@
+# Loaded first — before core_sim.hal — so lcec.read-all lands at the head
+# of the servo thread (before motion-command-handler).
+loadrt lcec config=[HAL]LCEC_CONFIG
+addf lcec.read-all servo-thread

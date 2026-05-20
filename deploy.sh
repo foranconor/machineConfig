@@ -19,10 +19,20 @@ else
     echo "Skipping tools.tbl."
 fi
 
-# HAL files from repo (flat into config root)
-for f in "$REPO_DIR/hal/"*.hal; do
+# HAL files and EtherCAT topology XML from repo (flat into config root)
+for f in "$REPO_DIR/hal/"*.hal "$REPO_DIR/hal/"*.xml; do
     [[ -f "$f" ]] && cp "$f" "$CONFIG_DIR/"
 done
+
+# EtherCAT ESI file — needed once; requires sudo
+ESI_DIR="/usr/share/lcec"
+ESI_SRC="$REPO_DIR/LC10E V1.04.xml"
+if [[ -f "$ESI_SRC" && ! -f "$ESI_DIR/LC10E V1.04.xml" ]]; then
+    echo "Installing ESI file to $ESI_DIR (requires sudo)..."
+    sudo mkdir -p "$ESI_DIR"
+    sudo cp "$ESI_SRC" "$ESI_DIR/"
+    echo "ESI installed."
+fi
 
 # Subroutines, M-codes, and Python remaps
 mkdir -p "$CONFIG_DIR/subroutines"
