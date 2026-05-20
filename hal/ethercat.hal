@@ -1,11 +1,12 @@
 addf lcec.read-all  servo-thread
 addf lcec.write-all servo-thread
 
-loadrt scale          count=2
+newinst scale         j0-cmd-scale
+newinst scale         j0-fb-scale
 loadrt conv_float_s32 count=1
 loadrt conv_s32_float count=1
-addf scale.0          servo-thread
-addf scale.1          servo-thread
+addf j0-cmd-scale     servo-thread
+addf j0-fb-scale      servo-thread
 addf conv_float_s32.0 servo-thread
 addf conv_s32_float.0 servo-thread
 
@@ -22,16 +23,16 @@ unlinkp joint.0.amp-fault-in
 
 # --- Position command: float mm -> s32 counts ---
 # INPUT_SCALE = 838860.8 counts/mm  (23-bit encoder, nominal 10 mm/rev)
-setp scale.0.gain [JOINT_0]INPUT_SCALE
-net j0-pos-cmd-mm   joint.0.motor-pos-cmd  => scale.0.in
-net j0-pos-cmd-f    scale.0.out            => conv_float_s32.0.in
+setp j0-cmd-scale.gain [JOINT_0]INPUT_SCALE
+net j0-pos-cmd-mm   joint.0.motor-pos-cmd  => j0-cmd-scale.in
+net j0-pos-cmd-f    j0-cmd-scale.out       => conv_float_s32.0.in
 net j0-pos-cmd-cnt  conv_float_s32.0.out   => lcec.0.x-drive.target-pos
 
 # --- Position feedback: s32 counts -> float mm ---
-setp scale.1.gain 1.19209290e-6
+setp j0-fb-scale.gain 1.19209290e-6
 net j0-pos-fb-cnt   lcec.0.x-drive.actual-pos => conv_s32_float.0.in
-net j0-pos-fb-f     conv_s32_float.0.out       => scale.1.in
-net j0-pos-fb-mm    scale.1.out                => joint.0.motor-pos-fb
+net j0-pos-fb-f     conv_s32_float.0.out       => j0-fb-scale.in
+net j0-pos-fb-mm    j0-fb-scale.out            => joint.0.motor-pos-fb
 
 # --- CiA 402 enable / fault ---
 net j0-statusword   lcec.0.x-drive.statusword  => cia402-sm.statusword
