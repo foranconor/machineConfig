@@ -3,20 +3,7 @@
 addf lcec.read-all  servo-thread
 addf lcec.write-all servo-thread
 
-# INPUT_SCALE sets counts per mm.  For the LC10E the encoder is 17-bit
-# (131072 counts/rev).  Divide by your lead screw pitch in mm:
-#   5 mm pitch  -> 26214.4
-#   10 mm pitch -> 13107.2
-# Update [JOINT_0]INPUT_SCALE in myCoolMachine.ini before running under load.
-setp lcec.0.x-drive.pos-scale [JOINT_0]INPUT_SCALE
+# Pin connections are stubbed out until we confirm actual pin names.
+# Start LinuxCNC, then run:  halcmd show pin lcec
+# and paste the output to get the real names.
 
-# Detach joint 0 from core_sim.hal's trivial cmd->fb loop so we can wire
-# the real drive.  Joints 1 and 2 stay on the sim.
-unlinkp joint.0.motor-pos-cmd
-unlinkp joint.0.motor-pos-fb
-unlinkp joint.0.amp-fault-in
-
-net j0-pos-cmd  joint.0.motor-pos-cmd    => lcec.0.x-drive.pos-cmd
-net j0-pos-fb   lcec.0.x-drive.pos-fb    => joint.0.motor-pos-fb
-net j0-enable   joint.0.amp-enable-out   => lcec.0.x-drive.enable
-net j0-fault    lcec.0.x-drive.fault     => joint.0.amp-fault-in
