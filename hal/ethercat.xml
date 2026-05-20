@@ -1,6 +1,6 @@
 <masters>
   <master idx="0" appTimePeriod="1000000" refClockSyncCycles="1">
-    <slave idx="0" type="cia402" name="x-drive">
+    <slave idx="0" type="lichuan" name="x-drive">
       <modParam name="cspEnable" value="1"/>
     </slave>
   </master>
