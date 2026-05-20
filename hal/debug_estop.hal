@@ -1,0 +1,4 @@
+# Estop passthrough for bench testing without the panic controller MCU.
+# Swap back to panic_controller.hal when the safety hardware is connected.
+unlinkp iocontrol.0.emc-enable-in
+net estop-loop iocontrol.0.user-enable-out => iocontrol.0.emc-enable-in
