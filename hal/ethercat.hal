@@ -1,8 +1,6 @@
 addf lcec.read-all  servo-thread
 addf lcec.write-all servo-thread
 
-newinst scale         j0-cmd-scale
-newinst scale         j0-fb-scale
 loadrt conv_float_s32 count=1
 loadrt conv_s32_float count=1
 addf j0-cmd-scale     servo-thread
