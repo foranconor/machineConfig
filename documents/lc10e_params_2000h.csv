@@ -1,0 +1,183 @@
+param,index,subindex,name,range,unit,default,rw,type,notes
+P01.02,0x2001,0x03,Servo drive number,0~65535,-,-,RW,Uint16,
+P01.50,0x2001,0x32,Software version number,-,-,-,RO,Uint16,
+P02.00,0x2002,0x01,Control mode selection,9=EtherCAT,-,9,RO,Uint16,Fixed at 9 for EtherCAT
+P02.01,0x2002,0x02,Encoder type selection,"0=Incremental, 1=Absolute",-,0,RW,Uint16,Restart required
+P02.02,0x2002,0x03,Rotation direction selection,"0=CCW forward, 1=CW forward",-,0,RW,Uint16,Restart required
+P02.03,0x2002,0x04,Output pulse phase,"0=CCW forward (A leads B), 1=CW forward (A lags B)",-,0,RW,Uint16,Restart required
+P02.05,0x2002,0x06,Servo enable OFF shutdown mode,"0=coast+free, 1=zero speed+free",-,0,RW,Uint16,
+P02.07,0x2002,0x08,Overtravel stop mode,"0=coast+free, 1=zero speed+position locked, 2=zero speed+free",-,1,RW,Uint16,
+P02.08,0x2002,0x09,Fault shutdown mode,-,-,0,RW,Uint16,
+P02.09,0x2002,0x0A,Brake ON to command reception delay,0~500,ms,250,RW,Uint16,
+P02.10,0x2002,0x0B,Static brake OFF to motor off delay,1~1000,ms,150,RW,Uint16,
+P02.11,0x2002,0x0C,Rotating brake OFF speed threshold,0~3000,rpm,30,RW,Uint16,
+P02.12,0x2002,0x0D,Rotating servo OFF to brake OFF delay,1~1000,ms,500,RW,Uint16,
+P02.15,0x2002,0x10,LED warning display selection,"0=immediate, 1=suppress",-,0,RW,Uint16,
+P02.21,0x2002,0x16,Min braking resistor value,-,Ω,40,RO,Uint16,
+P02.22,0x2002,0x17,Built-in braking resistor power,-,W,50,RO,Uint16,
+P02.23,0x2002,0x18,Built-in braking resistor resistance,-,Ω,50,RO,Uint16,
+P02.24,0x2002,0x19,Resistor heat dissipation coefficient,10~100,%,30,RW,Uint16,
+P02.25,0x2002,0x1A,Braking resistor settings,"0=built-in, 1=external natural, 2=external forced, 3=none",-,0,RW,Uint16,
+P02.26,0x2002,0x1B,External braking resistor power,1~65535,W,-,RW,Uint16,
+P02.27,0x2002,0x1C,External braking resistor resistance,1~1000,Ω,-,RW,Uint16,
+P02.31,0x2002,0x20,System parameter initialization,"0=none, 1=factory reset (except P00/P01), 2=clear faults",-,0,RW,Uint16,
+P02.32,0x2002,0x21,Panel default display,0~99,-,50,RW,Uint16,
+P03.00,0x2003,0x01,DI function allocation power-on 1,0000~FFFF hex,-,0,RW,Uint16,FunIN.1~16; restart required
+P03.01,0x2003,0x02,DI function allocation power-on 2,0000~FFFF hex,-,0,RW,Uint16,FunIN.17~32; restart required
+P03.02,0x2003,0x03,DI0 terminal function selection,0~39,-,14,RW,Uint16,14=P-OT (forward overtravel)
+P03.03,0x2003,0x04,DI0 terminal logic selection,"0=low active, 1=high active, 2=rising edge, 3=falling edge, 4=both edges",-,0,RW,Uint16,
+P03.04,0x2003,0x05,DI1 terminal function selection,0~39,-,15,RW,Uint16,15=N-OT (reverse overtravel)
+P03.05,0x2003,0x06,DI1 terminal logic selection,see P03.03,-,0,RW,Uint16,
+P03.06,0x2003,0x07,DI2 terminal function selection,0~39,-,31,RW,Uint16,31=HomeSwitch (origin switch)
+P03.07,0x2003,0x08,DI2 terminal logic selection,see P03.03,-,0,RW,Uint16,
+P03.08,0x2003,0x09,DI3 terminal function selection,0~39,-,0,RW,Uint16,
+P03.09,0x2003,0x0A,DI3 terminal logic selection,see P03.03,-,0,RW,Uint16,
+P03.10,0x2003,0x0B,DI4 terminal function selection,0~39,-,0,RW,Uint16,
+P03.11,0x2003,0x0C,DI4 terminal logic selection,see P03.03,-,0,RW,Uint16,
+P03.34,0x2003,0x23,DI function allocation power-on 3,0000~FFFF hex,-,0,RW,Uint16,FunIN.33~48; restart required
+P04.00,0x2004,0x01,DO0 terminal function selection,0~20,-,1,RW,Uint16,1=S-RDY (servo ready)
+P04.01,0x2004,0x02,DO0 terminal logic selection,"0=low active, 1=high active",-,0,RW,Uint16,
+P04.02,0x2004,0x03,DO1 terminal function selection,0~20,-,5,RW,Uint16,5=COIN (positioning complete)
+P04.03,0x2004,0x04,DO1 terminal logic selection,see P04.01,-,0,RW,Uint16,
+P04.04,0x2004,0x05,DO2 terminal function selection,0~20,-,3,RW,Uint16,3=zero speed
+P04.05,0x2004,0x06,DO2 terminal logic selection,see P04.01,-,0,RW,Uint16,
+P04.22,0x2004,0x17,DO source selection,-,-,0,RW,Uint16,
+P05.04,0x2005,0x05,First-order LPF filter time constant,0~6553.5,ms,0.0,RW,Uint16,Stop setting
+P05.06,0x2005,0x07,Average filter time constant,0.0~128.0,ms,0.0,RW,Uint16,Stop setting
+P05.16,0x2005,0x11,Clear position deviation action selection,0~2,-,0,RW,Uint16,Stop setting
+P05.17,0x2005,0x12,Encoder frequency division pulse number,-,encoder unit,2500,RW,Uint16,Restart required
+P05.19,0x2005,0x14,Speed feedforward control selection,"0=none, 1=internal feedforward, 2=use 60B1h as feedforward",-,1,RW,Uint16,Stop setting; see P08.19 for gain
+P05.31,0x2005,0x20,Return to origin mode,0~9,encoder unit,0,RW,Uint16,Stop setting
+P05.35,0x2005,0x24,Origin search time limit,0~65535,×10ms,5000,RW,Uint16,
+P05.44,0x2005,0x2D,Encoder multi-turn data offset,0~65535,encoder unit,0,RW,Uint16,Stop setting
+P05.46,0x2005,0x2F,Absolute position linear mode bias low 32-bit,-2147483648~2147483647,encoder unit,0,RW,Int32,Stop setting
+P05.48,0x2005,0x31,Absolute position linear mode bias high 32-bit,-2147483648~2147483647,encoder unit,0,RW,Int32,Stop setting
+P05.61,0x2005,0x3E,Position arrival threshold unit selection,"0=encoder unit, 1=command unit",-,1,RW,Uint16,Stop setting
+P06.04,0x2006,0x05,Jog speed setting value,0~6000,rpm,100,RW,Uint16,
+P06.11,0x2006,0x0C,Torque feedforward control selection,"1=internal, 2=use 60B2h",-,1,RW,Uint16,
+P06.15,0x2006,0x10,Zero position fixed speed threshold,0~6000,rpm,10,RW,Uint16,
+P07.05,0x2007,0x06,Torque command filter time constant,0~30.00,ms,0.79,RW,Uint16,
+P07.06,0x2007,0x07,2nd torque command filter time constant,0~30.00,ms,0.79,RW,Uint16,
+P07.07,0x2007,0x08,Torque limit source,"0=±internal, 1=±external EtherCAT, 2=min(±internal/±external), 3=min(±internal/±EtherCAT), 4=switching P-CL/N-CL",-,2,RW,Uint16,
+P07.09,0x2007,0x0A,Positive internal torque limit,0.0~300.0,%,300.0,RW,Uint16,
+P07.10,0x2007,0x0B,Negative internal torque limit,0.0~300.0,%,300.0,RW,Uint16,
+P07.11,0x2007,0x0C,Positive external torque limit,0.0~300.0,%,300.0,RW,Uint16,
+P07.12,0x2007,0x0D,Negative external torque limit,0.0~300.0,%,300.0,RW,Uint16,
+P07.15,0x2007,0x10,Emergency stop torque,0.0~300.0,%,300.0,RW,Uint16,
+P07.17,0x2007,0x12,Speed limit source selection,"0=internal, 1=EtherCAT external, 2=via FunIN.36 (2007-14h/15h)",-,0,RW,Uint16,
+P07.19,0x2007,0x14,Torque control forward speed limit,0~6000,rpm,3000,RW,Uint16,
+P07.20,0x2007,0x15,Torque control negative speed limit,0~6000,rpm,3000,RW,Uint16,
+P07.21,0x2007,0x16,Torque reaches reference value,0.0~300.0,%,0.0,RW,Uint16,
+P07.22,0x2007,0x17,Torque reaches effective value,0.0~300.0,%,20.0,RW,Uint16,
+P07.23,0x2007,0x18,Torque reaches invalid value,0.0~300.0,%,10.0,RW,Uint16,
+P07.40,0x2007,0x29,Speed limited window in torque mode,0.5~30.0,ms,1.0,RW,Uint16,
+P08.00,0x2008,0x01,Speed loop gain,0.1~2000.0,Hz,25.0,RW,Uint16,Stored ×10 (250=25.0Hz)
+P08.01,0x2008,0x02,Speed loop integration time constant,0.15~512.00,ms,31.83,RW,Uint16,Stored ×100
+P08.02,0x2008,0x03,Position loop gain,0.0~2000.0,Hz,40.0,RW,Uint16,Stored ×10 (400=40.0Hz); KEY PARAM
+P08.03,0x2008,0x04,2nd speed loop gain,0.1~2000.0,Hz,40.0,RW,Uint16,Stored ×10
+P08.04,0x2008,0x05,2nd speed loop integration time constant,0.15~512.00,ms,40.00,RW,Uint16,
+P08.05,0x2008,0x06,2nd position loop gain,0.0~2000.0,Hz,64.0,RW,Uint16,Stored ×10
+P08.08,0x2008,0x09,2nd gain mode setting,"0=fixed use DI for P/PI switching, 1=auto switching per P08.09",-,1,RW,Uint16,
+P08.09,0x2008,0x0A,Gain switching condition selection,"0=fixed 1st gain, 1=DI, 2=large torque, 3=large speed cmd, 4=large speed change, 5=speed high/low threshold, 6=large pos deviation, 7=position cmd, 8=positioning complete, 9=high actual speed, 10=position cmd + actual speed",-,0,RW,Uint16,
+P08.10,0x2008,0x0B,Gain switching delay time,0.0~1000.0,ms,5.0,RW,Uint16,
+P08.11,0x2008,0x0C,Gain switching level,0~20000,-,50,RW,Uint16,
+P08.12,0x2008,0x0D,Gain switching time lag,0~20000,-,30,RW,Uint16,
+P08.13,0x2008,0x0E,Position gain switching time,0.0~1000.0,ms,3.0,RW,Uint16,
+P08.15,0x2008,0x10,Load inertia ratio,0.00~120.00,×,1.00,RW,Uint16,Motor inertia = 1; increase for heavy load
+P08.18,0x2008,0x13,Speed feedforward filter time constant,0.00~64.00,ms,0.50,RW,Uint16,
+P08.19,0x2008,0x14,Speed feedforward gain,0.0~100.0,%,0.0,RW,Uint16,Stored ×10; 0=disabled; KEY PARAM for CSP following error
+P08.20,0x2008,0x15,Torque feedforward filter time constant,0.00~64.00,ms,0.50,RW,Uint16,
+P08.21,0x2008,0x16,Torque feedforward gain,0.0~200.0,%,0.0,RW,Uint16,Stored ×10
+P08.22,0x2008,0x17,Speed feedback filtering options,"0=none, 1=2× avg, 2=4× avg, 3=8× avg, 4=16× avg",-,0,RW,Uint16,Stop setting
+P08.23,0x2008,0x18,Speed feedback low-pass filter cutoff frequency,100~4000,Hz,4000,RW,Uint16,
+P08.24,0x2008,0x19,Pseudo-differential feedforward control coefficient,0.0~100.0,-,100.0,RW,Uint16,100=PI control (fast); 0=I only (low freq immunity)
+P09.00,0x2009,0x01,Self-adjusting mode selection,"0=disabled, 1=rigidity table auto, 2=rigidity table auto, 3=with friction compensation, 4=positioning with friction compensation",-,0,RW,Uint16,
+P09.01,0x2009,0x02,Group 1 rigidity level selection,0~31,-,12,RW,Uint16,
+P09.02,0x2009,0x03,Adaptive notch mode selection,0~4,-,0,RW,Uint16,
+P09.03,0x2009,0x04,Online inertia identification mode,0~3,-,-,RW,Uint16,
+P09.04,0x2009,0x05,Low frequency resonance suppression mode,"0=manual, 1=auto identify",-,0,RW,Uint16,
+P09.05,0x2009,0x06,Offline inertia identification mode selection,"0=+/- triangle wave, 1=JOG",-,0,RW,Uint16,Stop setting
+P09.06,0x2009,0x07,Inertia identification maximum speed,100~1000,rpm,500,RW,Uint16,Stop setting
+P09.07,0x2009,0x08,Inertia ID acceleration time constant,20~800,ms,125,RW,Uint16,Stop setting
+P09.08,0x2009,0x09,Wait time after single inertia ID,50~10000,ms,800,RW,Uint16,Stop setting
+P09.09,0x2009,0x0A,Single inertia ID number of turns,0.00~2.00,r,-,RO,Uint16,
+P09.12,0x2009,0x0D,Group 1 notch frequency,50~4000,Hz,4000,RW,Uint16,
+P09.13,0x2009,0x0E,Group 1 notch width class,0~20,-,2,RW,Uint16,
+P09.14,0x2009,0x0F,Group 1 notch depth rating,0~99,-,0,RW,Uint16,
+P09.15,0x2009,0x10,Group 2 notch frequency,50~4000,Hz,4000,RW,Uint16,
+P09.16,0x2009,0x11,Group 2 notch width class,0~20,-,2,RW,Uint16,
+P09.17,0x2009,0x12,Group 2 notch depth rating,0~99,-,0,RW,Uint16,
+P09.18,0x2009,0x13,Group 3 notch frequency,50~4000,Hz,4000,RW,Uint16,
+P09.19,0x2009,0x14,Group 3 notch width class,0~20,-,2,RW,Uint16,
+P09.20,0x2009,0x15,Group 3 notch depth rating,0~99,-,0,RW,Uint16,
+P09.21,0x2009,0x16,Group 4 notch frequency,50~4000,Hz,4000,RW,Uint16,
+P09.22,0x2009,0x17,Group 4 notch width class,0~20,-,2,RW,Uint16,
+P09.23,0x2009,0x18,Group 4 notch depth rating,0~99,-,0,RW,Uint16,
+P09.24,0x2009,0x19,Resonance frequency identification results,0~2,Hz,0,RO,Uint16,
+P09.30,0x2009,0x1F,Torque disturbance compensation gain,0.0~100.0,%,0.0,RW,Uint16,
+P09.31,0x2009,0x20,Torque disturbance observer filter time,0.00~25.00,ms,0.50,RW,Uint16,
+P09.38,0x2009,0x27,Low frequency resonance frequency,1.0~100.0,Hz,100.0,RW,Uint16,
+P09.39,0x2009,0x28,Low frequency resonance frequency filter setting,0~10,-,2,RW,Uint16,
+P0A.00,0x200A,0x01,Power input phase loss protection selection,"0=warning only, 1=fault+warning, 2=disabled",-,0,RW,Uint16,
+P0A.01,0x200A,0x02,Absolute position limit settings,"0=disabled, 1=enabled, 2=enabled after origin return",-,0,RW,Uint16,Stop setting
+P0A.03,0x200A,0x04,Power-off save function enable,"0=no, 1=yes",-,0,RW,Uint16,
+P0A.04,0x200A,0x05,Motor overload protection gain,50~300,%,100,RW,Uint16,Stop setting
+P0A.08,0x200A,0x09,Overspeed fault threshold,"0=max×1.2; 1~10000=specific rpm",-,0,RW,Uint16,
+P0A.12,0x200A,0x0D,Overrun protection enabled,"0=disabled, 1=enabled",-,1,RW,Uint16,
+P0A.16,0x200A,0x11,Low freq resonance position deviation threshold,1~1000,encoder unit,5,RW,Uint16,
+P0A.25,0x200A,0x1A,Speed feedback display filter time,0~5000,ms,50,RW,Uint16,Stop setting
+P0A.26,0x200A,0x1B,Motor overload shield enable,"0=detect, 1=shield",-,0,RW,Uint16,Stop setting
+P0A.27,0x200A,0x1C,Speed DO filter time constant,0~5000,ms,10,RW,Uint16,Stop setting
+P0A.28,0x200A,0x1D,Quadrature encoder filter time constant,0~255,×25ns,30,RW,Uint16,Restart required
+P0A.32,0x200A,0x21,Locked rotor over-temperature time window,10~65535,ms,200,RW,Uint16,
+P0A.33,0x200A,0x22,Stalled rotor over-temperature protection enabled,"0=disabled, 1=enabled",-,1,RW,Uint16,
+P0A.36,0x200A,0x25,Encoder multi-turn overflow fault selection,"0=no shield, 1=shield",-,0,RW,Uint16,Stop setting
+P0B.00,0x200B,0x01,Actual motor speed,-,rpm,-,RO,Int16,Monitoring; rounded to 1rpm
+P0B.01,0x200B,0x02,Speed command,-,rpm,-,RO,Int16,Monitoring
+P0B.02,0x200B,0x03,Internal torque command,-,%,-,RO,Int16,Monitoring; % of rated torque
+P0B.03,0x200B,0x04,DI signal monitoring,-,-,-,RO,Int16,Monitoring
+P0B.05,0x200B,0x06,DO signal monitoring,-,-,-,RO,Int16,Monitoring
+P0B.07,0x200B,0x08,Absolute position counter 32-bit,-,command unit,-,RO,Int32,Monitoring
+P0B.13,0x200B,0x0E,Input position command count,-,command unit,-,RO,Int32,Monitoring
+P0B.15,0x200B,0x10,Encoder position deviation value,-,encoder unit,-,RO,Int32,Monitoring
+P0B.17,0x200B,0x12,Feedback pulse counter,-,encoder unit,-,RO,Int32,Monitoring; confirmed 200B:12h in manual
+P0B.24,0x200B,0x19,Phase current rms value,-,A,-,RO,Uint16,Monitoring
+P0B.26,0x200B,0x1B,Bus voltage value,-,V,-,RO,Uint16,Monitoring
+P0B.33,0x200B,0x22,Fault recording (select index),"0=current, 1=last, ..., 9=last 9",-,-,RO,Uint16,Monitoring
+P0B.34,0x200B,0x23,Fault code at selected fault,-,-,-,RO,Uint16,Monitoring
+P0B.35,0x200B,0x24,Fault timestamp,-,s,-,RO,Int32,Monitoring
+P0B.37,0x200B,0x26,Motor speed at selected fault,-,rpm,-,RO,Int16,Monitoring
+P0B.38,0x200B,0x27,Motor U-phase current at fault,-,A,-,RO,Int16,Monitoring
+P0B.39,0x200B,0x28,Motor V-phase current at fault,-,A,-,RO,Int16,Monitoring
+P0B.40,0x200B,0x29,Bus voltage at fault,-,V,-,RO,Uint16,Monitoring
+P0B.53,0x200B,0x36,Position deviation counter,-,command unit,-,RO,Int32,Monitoring
+P0B.55,0x200B,0x38,Actual motor speed (0.1rpm resolution),-,rpm,-,RO,Int32,Monitoring
+P0B.57,0x200B,0x3A,Control power bus voltage,-,-,-,RO,Uint16,Monitoring
+P0B.58,0x200B,0x3B,Mechanical absolute position low 32-bit,-,encoder unit,-,RO,Int32,Monitoring
+P0B.60,0x200B,0x3D,Mechanical absolute position high 32-bit,-,encoder unit,-,RO,Int32,Monitoring
+P0B.64,0x200B,0x41,Input position instruction count (before gear ratio),-,command unit,-,RO,Int32,Monitoring
+P0B.70,0x200B,0x47,Absolute encoder rotation number,-,r,-,RO,Uint16,Monitoring
+P0B.71,0x200B,0x48,Absolute encoder position within 1 turn,-,encoder unit,-,RO,Int32,Monitoring
+P0B.77,0x200B,0x4E,Absolute encoder position low 32-bit,-,encoder unit,-,RO,Int32,Monitoring
+P0B.79,0x200B,0x50,Absolute encoder position high 32-bit,-,encoder unit,-,RO,Int32,Monitoring
+P0C.00,0x200C,0x01,Drive address,1~247,-,1,RW,Uint16,
+P0C.02,0x200C,0x03,Serial port baud rate,"0=2400, 1=4800, 2=9600, 3=19200, 4=38400, 5=57600",-,5,RW,Uint16,
+P0C.03,0x200C,0x04,MODBUS data format,"0=no parity 2 stop, 1=even 1 stop, 2=odd 1 stop, 3=no parity 1 stop",-,0,RW,Uint16,
+P0C.05,0x200C,0x06,EtherCAT station alias,-,-,0,RW,Uint16,Stop setting
+P0C.13,0x200C,0x0E,Save to EEPROM,"0=no save, 1=save 2000h series, 2=save 6000h series, 3=save both",-,0,RW,Uint16,Write to persist SDO changes across power cycle
+P0C.35,0x200C,0x24,EtherCAT sync interrupt lost disallowed times,4~20,×1ms,9,RW,Uint16,
+P0C.36,0x200C,0x25,Port0 CRC check error count,-,-,0,RO,Uint16,
+P0C.37,0x200C,0x26,Port1 CRC check error count,-,-,0,RO,Uint16,
+P0C.40,0x200C,0x29,Port 0/1 link lost count,-,-,0,RO,Uint16,
+P0C.42,0x200C,0x2B,Synchronization error monitoring mode,0~1,-,0,RW,Uint16,Stop setting
+P0C.43,0x200C,0x2C,Sync mode settings,"0=async, 1=sync mode 1 (≤1us jitter), 2=sync mode 2 (>1us jitter)",-,2,RW,Uint16,Stop setting
+P0C.44,0x200C,0x2D,Synchronization error threshold,0~2000,nm,500,RW,Uint16,Stop setting; active when P0C.43=1
+P0C.45,0x200C,0x2E,Location cache settings,"0=disabled, 1=enabled",-,1,RW,Uint16,Stop setting
+P0C.46,0x200C,0x2F,CSP position command increment excessive threshold,1~7,-,3,RW,Uint16,
+P0D.00,0x200D,0x01,Software reset,"0=no, 1=reset",-,0,RW,Uint16,Stop setting
+P0D.01,0x200D,0x02,Fault reset,"0=no, 1=reset",-,0,RW,Uint16,
+P0D.05,0x200D,0x06,Emergency shutdown,"0=no, 1=enable",-,0,RW,Uint16,
+P0D.17,0x200D,0x12,DIDO forced input/output enable,"0=normal, 1=force DI on+DO off, 2=force DI on, 3=force DO on, 4=EtherCAT DO on+force DI off",-,0,RW,Uint16,
+P0D.18,0x200D,0x13,DI forced input given,0~0x01FF,-,0x01FF,RW,Uint16,
+P0D.19,0x200D,0x14,DO forces output given,0~0x001F,-,0,RW,Uint16,
+P0D.20,0x200D,0x15,Absolute encoder reset enable,"0=no, 1=reset fault, 2=reset fault + multi-turn data",-,0,RW,Uint16,Stop setting

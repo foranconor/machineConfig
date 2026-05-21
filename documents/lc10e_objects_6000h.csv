@@ -1,0 +1,57 @@
+index,subindex,name,rw,type,default,range,unit,modes,notes
+0x603F,0x00,Error code,RO,Uint16,0,0~65535,-,ALL,
+0x6040,0x00,Control word,RW,Uint16,0,0~65535,-,ALL,Bits: 0=switch on; 1=enable voltage; 2=quick stop(0=active); 3=enable op; 7=fault reset rising edge; 8=halt
+0x6041,0x00,Status word,RO,Uint16,0,0~xFFFF,-,ALL,Bits: 0=ready; 1=switched on; 2=op enabled; 3=fault; 4=voltage enabled; 5=quick stop(0=active); 6=switch on disabled; 7=warning; 9=remote; 10=target reached; 11=internal limit; 15=home found
+0x605A,0x00,Quick shutdown mode selection,RW,INT16,2,0~7,-,ALL,CSP: 0=free stop; 1/2/3=emergency torque+free; 5/6/7=emergency torque+position locked
+0x605D,0x00,Temporary shutdown method selection,RW,INT16,1,1~3,-,ALL,CSP: 1/2/3=emergency torque+free
+0x6060,0x00,Servo mode selection,RW,INT8,0,0~10,-,ALL,"1=PP; 3=PV; 4=PT; 6=HM; 8=CSP; 9=CSV; 10=CST"
+0x6061,0x00,Run mode display,RO,INT8,0,0~10,-,ALL,
+0x6062,0x00,Position command,RO,Dint32,-,-,command unit,PP/CSP/HM,
+0x6063,0x00,Position feedback (encoder unit),RO,Dint32,-,-,encoder unit,PP/PV/HM,
+0x6064,0x00,Position feedback (command unit),RO,Dint32,-,-,command unit,PP/CSV/CSP/HM,
+0x6065,0x00,Excessive position deviation alarm threshold,RW,UDint32,1048576,0~2147483647,command unit,PP/CSP/HM,drive-side following error limit
+0x6067,0x00,Position reaches threshold,RW,UINT32,734,0~2147483647,encoder unit,PP/CSP/HM,
+0x6068,0x00,Position reaches window time,RW,UINT16,16,0~65535,ms,PP/CSP/HM,
+0x606C,0x00,Actual speed,RO,INT32,-,-,command unit/S,CSP/CSV,
+0x606D,0x00,Speed reaches threshold,RW,UINT16,10,0~65535,rpm,CSV/PV,
+0x606E,0x00,Speed arrival window time,RW,UINT16,0,0~65535,ms,CSV/PV,
+0x6071,0x00,Target torque,RW,UINT16,0,-4000~4000,0.1%,CST,
+0x6072,0x00,Maximum torque command,RW,UINT16,5000,0~4000,0.1%,ALL,
+0x6074,0x00,Torque command,RO,INT16,0,-5000~5000,0.1%,ALL,
+0x6077,0x00,Actual torque,RO,INT16,0,-5000~5000,0.1%,ALL,
+0x607A,0x00,Target position,RW,INT32,0,-2147483648~2147483647,command unit,PP/CSP,Primary CSP position command
+0x607C,0x00,Origin offset,RW,INT32,0,-2147483648~2147483647,command unit,ALL,
+0x607D,0x01,Minimum position limit,RW,INT32,-2147483648,-2147483648~2147483647,user unit,ALL,Software position limits
+0x607D,0x02,Maximum position limit,RW,INT32,2147483647,-2147483648~2147483647,user unit,ALL,Software position limits
+0x607E,0x00,Command polarity,RW,UINT8,0,-,-,ALL,Bit5=torque polarity; Bit6=speed polarity; Bit7=position polarity; 1=negate
+0x607F,0x00,Maximum speed,RW,UINT32,104857600,0~2147483647,command unit/S,ALL,Default ≈2500rpm with default gear ratio
+0x6081,0x00,Contour running speed,RW,UINT32,0,0~2147483647,user unit,PP,
+0x6083,0x00,Profile acceleration,RW,UINT32,100000,0~2147483647,command unit/S²,PP/PV,
+0x6084,0x00,Profile deceleration,RW,UINT32,100000,0~2147483647,command unit/S²,PP/PV,
+0x6085,0x00,Emergency stop deceleration,RW,UINT32,100000,0~2147483647,command unit/S²,ALL,
+0x6086,0x00,Operating curve selection,RW,INT16,0,0=linear,-,PP/PV,
+0x6087,0x00,Torque ramp,RW,UINT32,4294967295,0~2147483647,0.1%/S,CST/PT,
+0x6091,0x01,Motor resolution (gear numerator),RW,UINT32,1,1~2147483647,-,ALL,Electronic gear ratio numerator
+0x6091,0x02,Axis resolution (gear denominator),RW,UINT32,1,1~2147483647,-,ALL,Electronic gear ratio denominator
+0x6098,0x00,Zero return method,RW,INT8,0,1~35,-,HM,See Appendix 2 for method descriptions
+0x6099,0x01,Return to zero high speed,RW,UINT32,131072,0~2147483647,command unit/S,HM,
+0x6099,0x02,Return to zero low speed,RW,INT32,13107,10~2147483647,command unit/S,HM,
+0x609A,0x00,Return to zero acceleration,RW,DUINT32,100000,0~2147483647,command unit/S²,HM,
+0x60B0,0x00,Position offset,RW,INT32,0,-2147483648~2147483647,command unit,CSP,Added to target position
+0x60B1,0x00,Speed offset / feedforward,RW,INT32,0,-2147483648~2147483647,command unit/S,CSP/CSV,CSP feedforward when P05.19=2; CSV speed offset
+0x60B2,0x00,Torque bias,RW,INT16,0,-5000~5000,0.1%,ALL,
+0x60B8,0x00,Probe mode,RW,UINT16,0,0~65535,-,ALL,See bit definitions in section 7.10.1
+0x60B9,0x00,Probe status,RO,UINT16,0,0~65535,-,ALL,See bit definitions in section 7.10.1
+0x60BA,0x00,Probe 1 rising edge position,RO,INT32,0,-2147483648~2147483647,command unit,ALL,
+0x60BB,0x00,Probe 1 falling edge position,RO,INT32,0,-2147483648~2147483647,command unit,ALL,
+0x60BC,0x00,Probe 2 rising edge position,RO,INT32,0,-2147483648~2147483647,command unit,ALL,
+0x60BD,0x00,Probe 2 falling edge position,RO,INT32,0,-2147483648~2147483647,command unit,ALL,
+0x60E0,0x00,Forward torque limit,RW,UINT16,5000,0~5000,0.1%,ALL,
+0x60E1,0x00,Reverse torque limit,RW,UINT16,5000,0~5000,0.1%,ALL,
+0x60E6,0x00,Actual position calculation method,RW,UINT8,0,0~1,-,ALL,"0=absolute (pos feedback reset to 607Ch on origin); 1=relative (pos feedback increments from 607Ch)"
+0x60F4,0x00,Position deviation,RO,DINT32,-,-,command unit,PP/CSP/HM,
+0x60FC,0x00,Position command (encoder unit),RO,DINT32,-,-,encoder unit,ALL,= 6062h × gear ratio (6091h)
+0x60FD,0x00,DI state,RO,DINT32,0,-,-,ALL,"Bit0=reverse overtravel; Bit1=forward overtravel; Bit2=origin switch; Bit16=Z signal; Bit17=probe1; Bit18=probe2; Bit20=DI0; Bit21=DI1; Bit22=DI2; Bit23=DI3; Bit24=DI4"
+0x60FE,0x01,Physical output,RW,UINT32,0,-,-,ALL,Bit0=brake output (when 200D-12h=4)
+0x60FE,0x02,Physical output enable,RW,UINT32,0,-,-,ALL,"DO0=Bit16/16; DO1=Bit17/17; DO2=Bit18/18"
+0x60FF,0x00,Target speed,RW,INT32,0,-2147483648~2147483647,command unit/S,CSV,PRIMARY command in CSV mode; IGNORED in CSP mode
