@@ -8,7 +8,7 @@
           <pdoEntry idx="0x607a" subIdx="0x00" bitLen="32" halPin="target-pos"   halType="s32"/>
           <pdoEntry idx="0x60b8" subIdx="0x00" bitLen="16" halPin="probe-func"   halType="u32"/>
           <pdoEntry idx="0x6060" subIdx="0x00" bitLen="8"  halPin="opmode"       halType="s32"/>
-          <pdoEntry idx="0x60b1" subIdx="0x00" bitLen="32" halPin="target-vel"   halType="s32"/>
+          <pdoEntry idx="0x60ff" subIdx="0x00" bitLen="32" halPin="target-vel"   halType="s32"/>
         </pdo>
       </syncManager>
       <syncManager idx="3" dir="in">
