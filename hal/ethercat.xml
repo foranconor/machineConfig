@@ -1,5 +1,5 @@
 <masters>
-  <master idx="0" appTimePeriod="1000000" refClockSyncCycles="1">
+  <master idx="0" appTimePeriod="1000000" refClockSyncCycles="-1">
     <slave idx="0" type="generic" vid="0x00000766" pid="0x00000402" name="x-drive">
       <dcConf assignActivate="0x300" sync0Cycle="1000000" sync0Shift="0"/>
       <syncManager idx="2" dir="out">
