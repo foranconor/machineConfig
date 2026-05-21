@@ -35,6 +35,7 @@ h.ready()
 subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint32', '0x6091', '0x01', '8388608'])
 subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint32', '0x6091', '0x02', '10000'])
 subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint16', '0x2008', '0x14', '1000'])
+subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint32', '0x607f', '0x00', '350000000'])
 
 try:
     while True:
