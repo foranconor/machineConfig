@@ -1,0 +1,184 @@
+Param    Name                                                 Default    Current    !
+------------------------------------------------------------------------------------------
+P01.02   Servo drive number                                   -          6          
+P01.50   Software version number                              -          6100       
+P02.00   Control mode selection                               9          9          
+P02.01   Encoder type selection                               0          0          
+P02.02   Rotation direction selection                         0          0          
+P02.03   Output pulse phase                                   0          0          
+P02.05   Servo enable OFF shutdown mode                       0          0          
+P02.07   Overtravel stop mode                                 1          1          
+P02.08   Fault shutdown mode                                  0          0          
+P02.09   Brake ON to command reception delay                  250        250        
+P02.10   Static brake OFF to motor off delay                  150        150        
+P02.11   Rotating brake OFF speed threshold                   30         30         
+P02.12   Rotating servo OFF to brake OFF delay                500        500        
+P02.15   LED warning display selection                        0          0          
+P02.21   Min braking resistor value                           40         20         <--
+P02.22   Built-in braking resistor power                      50         80         <--
+P02.23   Built-in braking resistor resistance                 50         25         <--
+P02.24   Resistor heat dissipation coefficient                30         30         
+P02.25   Braking resistor settings                            0          0          
+P02.26   External braking resistor power                      -          40         
+P02.27   External braking resistor resistance                 -          50         
+P02.31   System parameter initialization                      0          0          
+P02.32   Panel default display                                50         50         
+P03.00   DI function allocation power-on 1                    0          0          
+P03.01   DI function allocation power-on 2                    0          0          
+P03.02   DI0 terminal function selection                      14         14         
+P03.03   DI0 terminal logic selection                         0          0          
+P03.04   DI1 terminal function selection                      15         15         
+P03.05   DI1 terminal logic selection                         0          0          
+P03.06   DI2 terminal function selection                      31         31         
+P03.07   DI2 terminal logic selection                         0          0          
+P03.08   DI3 terminal function selection                      0          0          
+P03.09   DI3 terminal logic selection                         0          0          
+P03.10   DI4 terminal function selection                      0          0          
+P03.11   DI4 terminal logic selection                         0          0          
+P03.34   DI function allocation power-on 3                    0          0          
+P04.00   DO0 terminal function selection                      1          1          
+P04.01   DO0 terminal logic selection                         0          0          
+P04.02   DO1 terminal function selection                      5          5          
+P04.03   DO1 terminal logic selection                         0          0          
+P04.04   DO2 terminal function selection                      3          3          
+P04.05   DO2 terminal logic selection                         0          0          
+P04.22   DO source selection                                  0          0          
+P05.04   First-order LPF filter time constant                 0.0        0          
+P05.06   Average filter time constant                         0.0        0          
+P05.16   Clear position deviation action selection            0          0          
+P05.17   Encoder frequency division pulse number              2500       2500       
+P05.19   Speed feedforward control selection                  1          1          
+P05.31   Return to origin mode                                0          0          
+P05.35   Origin search time limit                             5000       50000      <--
+P05.44   Encoder multi-turn data offset                       0          0          
+P05.46   Absolute position linear mode bias low 32-bit        0          ERR        
+P05.48   Absolute position linear mode bias high 32-bit       0          ERR        
+P05.61   Position arrival threshold unit selection            1          1          
+P06.04   Jog speed setting value                              100        100        
+P06.11   Torque feedforward control selection                 1          1          
+P06.15   Zero position fixed speed threshold                  10         10         
+P07.05   Torque command filter time constant                  0.79       79         
+P07.06   2nd torque command filter time constant              0.79       79         
+P07.07   Torque limit source                                  2          2          
+P07.09   Positive internal torque limit                       300.0      3000       
+P07.10   Negative internal torque limit                       300.0      3000       
+P07.11   Positive external torque limit                       300.0      3000       
+P07.12   Negative external torque limit                       300.0      3000       
+P07.15   Emergency stop torque                                300.0      1000       
+P07.17   Speed limit source selection                         0          1          <--
+P07.19   Torque control forward speed limit                   3000       3000       
+P07.20   Torque control negative speed limit                  3000       3000       
+P07.21   Torque reaches reference value                       0.0        0          
+P07.22   Torque reaches effective value                       20.0       200        
+P07.23   Torque reaches invalid value                         10.0       100        
+P07.40   Speed limited window in torque mode                  1.0        10         
+P08.00   Speed loop gain                                      25.0       500        
+P08.01   Speed loop integration time constant                 31.83      2500       
+P08.02   Position loop gain                                   40.0       400        
+P08.03   2nd speed loop gain                                  40.0       400        
+P08.04   2nd speed loop integration time constant             40.00      2000       
+P08.05   2nd position loop gain                               64.0       640        
+P08.08   2nd gain mode setting                                1          1          
+P08.09   Gain switching condition selection                   0          0          
+P08.10   Gain switching delay time                            5.0        50         
+P08.11   Gain switching level                                 50         50         
+P08.12   Gain switching time lag                              30         30         
+P08.13   Position gain switching time                         3.0        30         
+P08.15   Load inertia ratio                                   1.00       100        
+P08.18   Speed feedforward filter time constant               0.50       50         
+P08.19   Speed feedforward gain                               0.0        0          
+P08.20   Torque feedforward filter time constant              0.50       50         
+P08.21   Torque feedforward gain                              0.0        0          
+P08.22   Speed feedback filtering options                     0          0          
+P08.23   Speed feedback low-pass filter cutoff frequency      4000       4000       
+P08.24   Pseudo-differential feedforward control coefficient  100.0      1000       
+P09.00   Self-adjusting mode selection                        0          0          
+P09.01   Group 1 rigidity level selection                     12         12         
+P09.02   Adaptive notch mode selection                        0          0          
+P09.03   Online inertia identification mode                   -          0          
+P09.04   Low frequency resonance suppression mode             0          0          
+P09.05   Offline inertia identification mode selection        0          0          
+P09.06   Inertia identification maximum speed                 500        500        
+P09.07   Inertia ID acceleration time constant                125        125        
+P09.08   Wait time after single inertia ID                    800        800        
+P09.09   Single inertia ID number of turns                    -          104        
+P09.12   Group 1 notch frequency                              4000       4000       
+P09.13   Group 1 notch width class                            2          2          
+P09.14   Group 1 notch depth rating                           0          0          
+P09.15   Group 2 notch frequency                              4000       4000       
+P09.16   Group 2 notch width class                            2          2          
+P09.17   Group 2 notch depth rating                           0          0          
+P09.18   Group 3 notch frequency                              4000       4000       
+P09.19   Group 3 notch width class                            2          2          
+P09.20   Group 3 notch depth rating                           0          0          
+P09.21   Group 4 notch frequency                              4000       4000       
+P09.22   Group 4 notch width class                            2          2          
+P09.23   Group 4 notch depth rating                           0          0          
+P09.24   Resonance frequency identification results           0          0          
+P09.30   Torque disturbance compensation gain                 0.0        0          
+P09.31   Torque disturbance observer filter time              0.50       50         
+P09.38   Low frequency resonance frequency                    100.0      1000       
+P09.39   Low frequency resonance frequency filter setting     2          2          
+P0A.00   Power input phase loss protection selection          0          0          
+P0A.01   Absolute position limit settings                     0          0          
+P0A.03   Power-off save function enable                       0          0          
+P0A.04   Motor overload protection gain                       100        100        
+P0A.08   Overspeed fault threshold                            0          0          
+P0A.12   Overrun protection enabled                           1          1          
+P0A.16   Low freq resonance position deviation threshold      5          5          
+P0A.25   Speed feedback display filter time                   50         50         
+P0A.26   Motor overload shield enable                         0          0          
+P0A.27   Speed DO filter time constant                        10         10         
+P0A.28   Quadrature encoder filter time constant              30         5          <--
+P0A.32   Locked rotor over-temperature time window            200        200        
+P0A.33   Stalled rotor over-temperature protection enabled    1          1          
+P0A.36   Encoder multi-turn overflow fault selection          0          0          
+P0B.00   Actual motor speed                                   -          0          
+P0B.01   Speed command                                        -          0          
+P0B.02   Internal torque command                              -          0          
+P0B.03   DI signal monitoring                                 -          31         
+P0B.05   DO signal monitoring                                 -          26         
+P0B.07   Absolute position counter 32-bit                     -          ERR        
+P0B.13   Input position command count                         -          ERR        
+P0B.15   Encoder position deviation value                     -          ERR        
+P0B.17   Feedback pulse counter                               -          ERR        
+P0B.24   Phase current rms value                              -          0          
+P0B.26   Bus voltage value                                    -          3273       
+P0B.33   Fault recording (select index)                       -          0          
+P0B.34   Fault code at selected fault                         -          0          
+P0B.35   Fault timestamp                                      -          ERR        
+P0B.37   Motor speed at selected fault                        -          0          
+P0B.38   Motor U-phase current at fault                       -          0          
+P0B.39   Motor V-phase current at fault                       -          0          
+P0B.40   Bus voltage at fault                                 -          0          
+P0B.53   Position deviation counter                           -          ERR        
+P0B.55   Actual motor speed (0.1rpm resolution)               -          ERR        
+P0B.57   Control power bus voltage                            -          3307       
+P0B.58   Mechanical absolute position low 32-bit              -          ERR        
+P0B.60   Mechanical absolute position high 32-bit             -          ERR        
+P0B.64   Input position instruction count (before gear ratio) -          ERR        
+P0B.70   Absolute encoder rotation number                     -          0          
+P0B.71   Absolute encoder position within 1 turn              -          ERR        
+P0B.77   Absolute encoder position low 32-bit                 -          ERR        
+P0B.79   Absolute encoder position high 32-bit                -          ERR        
+P0C.00   Drive address                                        1          1          
+P0C.02   Serial port baud rate                                5          3          <--
+P0C.03   MODBUS data format                                   0          1          <--
+P0C.05   EtherCAT station alias                               0          0          
+P0C.13   Save to EEPROM                                       0          3          <--
+P0C.35   EtherCAT sync interrupt lost disallowed times        9          9          
+P0C.36   Port0 CRC check error count                          0          0          
+P0C.37   Port1 CRC check error count                          0          0          
+P0C.40   Port 0/1 link lost count                             0          0          
+P0C.42   Synchronization error monitoring mode                0          0          
+P0C.43   Sync mode settings                                   2          1          <--
+P0C.44   Synchronization error threshold                      500        3000       <--
+P0C.45   Location cache settings                              1          0          <--
+P0C.46   CSP position command increment excessive threshold   3          3          
+P0D.00   Software reset                                       0          0          
+P0D.01   Fault reset                                          0          0          
+P0D.05   Emergency shutdown                                   0          0          
+P0D.17   DIDO forced input/output enable                      0          0          
+P0D.18   DI forced input given                                0x01FF     447        
+P0D.19   DO forces output given                               0          0          
+P0D.20   Absolute encoder reset enable                        0          0          
