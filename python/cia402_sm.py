@@ -32,10 +32,12 @@ h.newpin('fault',      hal.HAL_BIT, hal.HAL_OUT)
 h.ready()
 
 # Gear ratio 8388608:10000 = 1 cmd unit = 1 micron; drive resets to 1:1 on power cycle
+# Gear ratio and max speed survive OP state transition; apply once at startup
 subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint32', '0x6091', '0x01', '8388608'])
 subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint32', '0x6091', '0x02', '10000'])
-subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint16', '0x2008', '0x14', '1000'])
 subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint32', '0x607f', '0x00', '350000000'])
+
+feedforward_applied = False
 
 try:
     while True:
@@ -45,6 +47,7 @@ try:
         fault  = bool(sw & SW_FAULT_BIT)
 
         if fault:
+            feedforward_applied = False
             h['controlword'] = CMD_FAULT_RESET if enable else CMD_DISABLE_VOLTAGE
             h['enabled'] = False
             h['fault']   = True
@@ -65,6 +68,9 @@ try:
             h['enabled'] = False
             h['fault']   = False
         elif state == SW_OPERATION_ENABLED:
+            if not feedforward_applied:
+                subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint16', '0x2008', '0x14', '1000'])
+                feedforward_applied = True
             h['controlword'] = CMD_ENABLE_OP
             h['enabled'] = True
             h['fault']   = False
