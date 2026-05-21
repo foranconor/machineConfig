@@ -2,12 +2,10 @@ addf lcec.read-all  servo-thread
 
 loadrt conv_float_s32 names=j0-cmd-conv,j0-vel-conv
 loadrt conv_s32_float names=j0-fb-conv
-newinst ddt j0-vel-cmd
 addf j0-cmd-scale     servo-thread
 addf j0-fb-scale      servo-thread
 addf j0-cmd-conv      servo-thread
 addf j0-fb-conv       servo-thread
-addf j0-vel-cmd       servo-thread
 setp j0-vel-scale.gain [JOINT_0]INPUT_SCALE
 addf j0-vel-scale     servo-thread
 addf j0-vel-conv      servo-thread
@@ -44,7 +42,6 @@ net j0-controlword  cia402-sm.controlword       => lcec.0.x-drive.controlword
 net j0-fault        cia402-sm.fault             => joint.0.amp-fault-in
 
 # --- Velocity feedforward: mm/s -> s32 counts/s ---
-net j0-pos-cmd-mm   => j0-vel-cmd.in
-net j0-vel-mms      j0-vel-cmd.out       => j0-vel-scale.in
+net j0-vel-mms      joint.0.vel-cmd      => j0-vel-scale.in
 net j0-vel-f        j0-vel-scale.out     => j0-vel-conv.in
 net j0-vel-cnt      j0-vel-conv.out      => lcec.0.x-drive.target-vel
