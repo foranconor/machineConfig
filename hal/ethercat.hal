@@ -23,14 +23,14 @@ unlinkp joint.0.motor-pos-fb
 unlinkp joint.0.amp-fault-in
 
 # --- Position command: float mm -> s32 counts ---
-# INPUT_SCALE = 838860.8 counts/mm  (23-bit encoder, nominal 10 mm/rev)
+# INPUT_SCALE = 1000 counts/mm; gear ratio 8388608:10000 => 1 count = 1 micron, INT32 range = ±2147m
 setp j0-cmd-scale.gain [JOINT_0]INPUT_SCALE
 net j0-pos-cmd-mm   joint.0.motor-pos-cmd  => j0-cmd-scale.in
 net j0-pos-cmd-f    j0-cmd-scale.out       => j0-cmd-conv.in
 net j0-pos-cmd-cnt  j0-cmd-conv.out        => lcec.0.x-drive.target-pos
 
 # --- Position feedback: s32 counts -> float mm ---
-setp j0-fb-scale.gain 1.19209290e-6
+setp j0-fb-scale.gain 0.001
 net j0-pos-fb-cnt   lcec.0.x-drive.actual-pos => j0-fb-conv.in
 net j0-pos-fb-f     j0-fb-conv.out            => j0-fb-scale.in
 net j0-pos-fb-mm    j0-fb-scale.out           => joint.0.motor-pos-fb
