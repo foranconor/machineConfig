@@ -34,6 +34,7 @@ h.ready()
 # Gear ratio 8388608:10000 = 1 cmd unit = 1 micron; drive resets to 1:1 on power cycle
 subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint32', '0x6091', '0x01', '8388608'])
 subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint32', '0x6091', '0x02', '10000'])
+subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint16', '0x2008', '0x14', '1000'])
 
 try:
     while True:
