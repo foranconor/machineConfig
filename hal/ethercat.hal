@@ -3,9 +3,9 @@ addf lcec.read-all  servo-thread
 loadrt conv_float_s32 names=j0-cmd-conv,j0-vel-conv
 loadrt conv_s32_float names=j0-fb-conv
 addf j0-cmd-scale     servo-thread
-addf j0-fb-scale      servo-thread
 addf j0-cmd-conv      servo-thread
 addf j0-fb-conv       servo-thread
+addf j0-fb-scale      servo-thread
 setp j0-vel-scale.gain [JOINT_0]INPUT_SCALE
 addf j0-vel-scale     servo-thread
 addf j0-vel-conv      servo-thread
