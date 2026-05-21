@@ -6,6 +6,7 @@ enable sequence.  Runs as a userspace HAL component at ~100 Hz.
 """
 import hal
 import time
+import subprocess
 
 # Controlword commands (DS402 table 20)
 CMD_DISABLE_VOLTAGE = 0x0000
@@ -29,6 +30,10 @@ h.newpin('controlword', hal.HAL_U32, hal.HAL_OUT)
 h.newpin('enabled',    hal.HAL_BIT, hal.HAL_OUT)
 h.newpin('fault',      hal.HAL_BIT, hal.HAL_OUT)
 h.ready()
+
+# Gear ratio 8388608:10000 = 1 cmd unit = 1 micron; drive resets to 1:1 on power cycle
+subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint32', '0x6091', '0x01', '8388608'])
+subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint32', '0x6091', '0x02', '10000'])
 
 try:
     while True:
