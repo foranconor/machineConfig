@@ -31,11 +31,11 @@ h.newpin('enabled',    hal.HAL_BIT, hal.HAL_OUT)
 h.newpin('fault',      hal.HAL_BIT, hal.HAL_OUT)
 h.ready()
 
-# Gear ratio 8388608:10000 = 1 cmd unit = 1 micron; drive resets to 1:1 on power cycle
-# Gear ratio and max speed survive OP state transition; apply once at startup
+# Parameters applied at every startup (drive does not persist these across power cycles)
 subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint32', '0x6091', '0x01', '8388608'])
 subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint32', '0x6091', '0x02', '10000'])
 subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint32', '0x607f', '0x00', '350000000'])
+subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint16', '0x2005', '0x14', '2'])
 
 feedforward_applied = False
 
