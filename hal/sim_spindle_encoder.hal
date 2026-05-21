@@ -6,7 +6,7 @@ setp sim_spindle.scale 0.01666667
 loadrt limit2 names=limit_speed
 loadrt lowpass names=spindle_mass
 loadrt near names=near_speed
-loadrt scale names=rpm_rps,j0-cmd-scale,j0-fb-scale
+loadrt scale names=rpm_rps,j0-cmd-scale,j0-fb-scale,j0-vel-scale
 
 setp rpm_rps.gain .0167
 
