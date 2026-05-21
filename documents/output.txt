@@ -1,0 +1,62 @@
+Machine configuration directory is '/home/conor/linuxcnc/configs/myCoolMachine'
+Machine configuration file is 'myCoolMachine.ini'
+Starting LinuxCNC...
+linuxcnc TPMOD=tpmod HOMEMOD=homemod EMCMOT=motmod
+Note: Using POSIX realtime
+Found file(REL): ./ethercat_init.hal
+Found file(lib): /usr/share/linuxcnc/hallib/core_sim.hal
+Found file(REL): ./sim_spindle_encoder.hal
+Found file(lib): /usr/share/linuxcnc/hallib/simulated_home.hal
+Found file(REL): ./debug_estop.hal
+Found file(REL): ./ethercat.hal
+Found file(REL): ./myCoolMachine.hal
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to download SDO: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+note: MAXV     max: 333.330 units/sec 19999.800 units/min
+note: LJOG     max: 333.330 units/sec 19999.800 units/min
+note: LJOG default: 50.000 units/sec 3000.000 units/min
+note: jog_order='XYZ'
+note: jog_invert=set()
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+task: main loop took 0.010182 seconds
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+task: main loop took 0.108590 seconds
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+joint 0 following error
+emc/task/taskintf.cc 976: Error on joint 0, command number 124
+task: main loop took 0.036426 seconds
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Shutting down and cleaning up LinuxCNC...
+task: 29840 cycles, min=0.000030, max=0.108590, avg=0.001110, 3 latency excursions (> 10x expected cycle time of 0.001000s)
+Failed to get reference clock time: Input/output error
+Note: Using POSIX realtime
