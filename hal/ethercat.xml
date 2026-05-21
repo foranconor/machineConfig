@@ -1,14 +1,6 @@
 <masters>
   <master idx="0" appTimePeriod="1000000" refClockSyncCycles="-1">
     <slave idx="0" type="generic" vid="0x00000766" pid="0x00000402" name="x-drive">
-      <!-- Electronic gear ratio: 8388608:10000 = 1 cmd unit = 1 micron, INT32 range ~2147m -->
-      <!-- Drive does not persist 0x6091 across power cycles, so set it here at init -->
-      <sdoConfig idx="0x6091" subIdx="0x01">
-        <sdoDataRaw>00 00 80 00</sdoDataRaw>
-      </sdoConfig>
-      <sdoConfig idx="0x6091" subIdx="0x02">
-        <sdoDataRaw>10 27 00 00</sdoDataRaw>
-      </sdoConfig>
       <dcConf assignActivate="0x300" sync0Cycle="1000000" sync0Shift="0"/>
       <syncManager idx="2" dir="out">
         <pdo idx="0x1600">

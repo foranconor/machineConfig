@@ -3,3 +3,5 @@
 # which loads after core_sim.hal has created servo-thread.
 loadusr -W lcec_conf [HAL]LCEC_CONFIG
 loadrt lcec
+# Gear ratio does not persist in EEPROM; apply at every startup after lcec brings slave to OP
+loadusr -w sh -c "ethercat -p 0 download --type uint32 0x6091 0x01 8388608 && ethercat -p 0 download --type uint32 0x6091 0x02 10000"
