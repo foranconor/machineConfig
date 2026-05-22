@@ -23,6 +23,14 @@ SW_SWITCHED_ON        = 0x0023
 SW_OPERATION_ENABLED  = 0x0027
 SW_FAULT_BIT          = 0x0008
 
+h = hal.component('cia402-sm')
+h.newpin('statusword', hal.HAL_U32, hal.HAL_IN)
+h.newpin('enable',     hal.HAL_BIT, hal.HAL_IN)
+h.newpin('controlword', hal.HAL_U32, hal.HAL_OUT)
+h.newpin('enabled',    hal.HAL_BIT, hal.HAL_OUT)
+h.newpin('fault',      hal.HAL_BIT, hal.HAL_OUT)
+h.ready()
+
 def sdo_write(obj_type, idx, subidx, value, retries=20):
     cmd = ['ethercat', '-p', '0', 'download', '--type', obj_type, idx, subidx, str(value)]
     for attempt in range(retries):
@@ -32,18 +40,9 @@ def sdo_write(obj_type, idx, subidx, value, retries=20):
         time.sleep(0.1)
     raise RuntimeError(f'SDO write failed after {retries} attempts: {idx}:{subidx} = {value}')
 
-# Gear ratio must be applied before h.ready() so LinuxCNC reads actual-pos
-# in the correct scale when it initialises motor-pos-cmd on startup.
+# Parameters applied at every startup (drive does not persist these across power cycles)
 sdo_write('uint32', '0x6091', '0x01', '8388608')
 sdo_write('uint32', '0x6091', '0x02', '10000')
-
-h = hal.component('cia402-sm')
-h.newpin('statusword', hal.HAL_U32, hal.HAL_IN)
-h.newpin('enable',     hal.HAL_BIT, hal.HAL_IN)
-h.newpin('controlword', hal.HAL_U32, hal.HAL_OUT)
-h.newpin('enabled',    hal.HAL_BIT, hal.HAL_OUT)
-h.newpin('fault',      hal.HAL_BIT, hal.HAL_OUT)
-h.ready()
 
 feedforward_applied = False
 

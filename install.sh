@@ -60,7 +60,7 @@ apt-get remove -y --purge unattended-upgrades 2>/dev/null || true
 # ── CPU low-latency (persistent via grub) ────────────────────────────────────
 echo "--- Configuring grub for low-latency RT ---"
 GRUB_FILE=/etc/default/grub
-GRUB_OPTS='quiet processor.max_cstate=1 intel_idle.max_cstate=1'
+GRUB_OPTS='quiet processor.max_cstate=1 intel_idle.max_cstate=1 cpufreq.default_governor=performance'
 if ! grep -q "max_cstate" "$GRUB_FILE"; then
     sed -i "s/^GRUB_CMDLINE_LINUX_DEFAULT=.*/GRUB_CMDLINE_LINUX_DEFAULT=\"${GRUB_OPTS}\"/" "$GRUB_FILE"
     update-grub

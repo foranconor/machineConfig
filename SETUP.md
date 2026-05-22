@@ -4,6 +4,7 @@
 ```
 sudo apt update
 sudo apt install git linuxcnc-ethercat
+bash ~/repos/machineConfig/install.sh   # CPU/grub RT tuning
 git config --global user.name "Conor Foran"
 git config --global user.email "foranconor@gmail.com"
 ssh-keygen -t ed25519 -C "foranconor@gmail.com" -f ~/.ssh/id_ed25519 -N ""
