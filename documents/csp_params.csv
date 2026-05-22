@@ -1,0 +1,25 @@
+index,subIndex,name,type,dataType,unit,comments
+603Fh,00,Error code,RO,UINT16,-,
+6041h,00,Status word,RO,UINT16,-,
+6061h,00,Mode display,RO,INT8,-,
+6062h,00,Position command,RO,INT32,Command Unit,Position cmd after gear ratio
+6064h,00,Position feedback,RO,INT32,Command Unit,Actual position in command units
+606Ch,00,Actual speed,RO,INT32,Command Unit/S,
+60F4h,00,Position deviation,RO,INT32,Command Unit,Drive-side following error
+60FCh,00,Position command,RO,INT32,Encoder unit,Position cmd in raw encoder counts
+60FDh,00,Input IO status,RO,UINT32,-,
+6040h,00,Control word,RW,UINT16,-,
+6060h,00,Control model,RW,INT8,-,Set to 8 for CSP
+607Ah,00,Target position,RW,INT32,Command Unit,Main position command from master
+607Fh,00,Maximum speed,RW,UDINT,Command Unit/S,Default 104857600 = ~104857 mm/s; not limiting with gear ratio
+6065h,00,Excessive position deviation alarm threshold,RW,UINT32,Command Unit,Drive-side deviation fault threshold
+6067h,00,Position reaches threshold,RW,UINT32,Encoder unit,
+6068h,00,Position reaches window,RW,UINT16,ms,
+6091h,01,Motor resolution (gear ratio numerator),RW,UINT32,-,Set to 8388608
+6091h,02,Axis resolution (gear ratio denominator),RW,UINT32,-,Set to 10000; gives 1 cmd unit = 1 micron
+60B0h,00,Position offset,RW,INT32,Command Unit,Additive offset to position command
+60B1h,00,Speed offset,RW,INT32,Command Unit/S,Velocity feedforward input; feeds 2008-14h (speed FF gain) and 2008-16h (torque FF gain)
+60B2h,00,Torque offset,RW,INT32,0.1%,
+6072h,00,Maximum torque,RW,UINT16,0.1%,
+60E0h,00,Forward torque limit,RW,UINT16,0.1%,
+60E1h,00,Reverse torque limit,RW,UINT16,0.1%,
