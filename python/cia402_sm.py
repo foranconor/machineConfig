@@ -31,9 +31,18 @@ h.newpin('enabled',    hal.HAL_BIT, hal.HAL_OUT)
 h.newpin('fault',      hal.HAL_BIT, hal.HAL_OUT)
 h.ready()
 
+def sdo_write(obj_type, idx, subidx, value, retries=20):
+    cmd = ['ethercat', '-p', '0', 'download', '--type', obj_type, idx, subidx, str(value)]
+    for attempt in range(retries):
+        r = subprocess.run(cmd, capture_output=True)
+        if r.returncode == 0:
+            return True
+        time.sleep(0.1)
+    raise RuntimeError(f'SDO write failed after {retries} attempts: {idx}:{subidx} = {value}')
+
 # Parameters applied at every startup (drive does not persist these across power cycles)
-subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint32', '0x6091', '0x01', '8388608'])
-subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint32', '0x6091', '0x02', '10000'])
+sdo_write('uint32', '0x6091', '0x01', '8388608')
+sdo_write('uint32', '0x6091', '0x02', '10000')
 
 feedforward_applied = False
 
@@ -67,7 +76,7 @@ try:
             h['fault']   = False
         elif state == SW_OPERATION_ENABLED:
             if not feedforward_applied:
-                subprocess.run(['ethercat', '-p', '0', 'download', '--type', 'uint16', '0x2008', '0x14', '1000'])
+                sdo_write('uint16', '0x2008', '0x14', '1000')
                 feedforward_applied = True
             h['controlword'] = CMD_ENABLE_OP
             h['enabled'] = True
