@@ -16,24 +16,6 @@ Found file(REL): ./myCoolMachine.hal
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
 note: MAXV     max: 333.330 units/sec 19999.800 units/min
 note: LJOG     max: 333.330 units/sec 19999.800 units/min
 note: LJOG default: 50.000 units/sec 3000.000 units/min
@@ -45,23 +27,18 @@ Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
+task: main loop took 0.056135 seconds
 Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-task: main loop took 0.043927 seconds
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-task: main loop took 0.020707 seconds
+task: main loop took 0.021100 seconds
 joint 0 following error
 emc/task/taskintf.cc 976: Error on joint 0, command number 142
-task: main loop took 0.036899 seconds
+task: main loop took 0.037141 seconds
+Failed to get reference clock time: Input/output error
+task: main loop took 0.043458 seconds
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
-task: main loop took 0.137376 seconds
-task: main loop took 0.099671 seconds
+task: main loop took 0.100443 seconds
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
@@ -80,5 +57,14 @@ Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
-task: 28623 cycles, min=0.000031, max=0.137376, avg=0.001094, 5 latency excursions (> 10x expected cycle time of 0.001000s)
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+task: 24222 cycles, min=0.000031, max=0.100443, avg=0.001096, 5 latency excursions (> 10x expected cycle time of 0.001000s)
+Failed to get reference clock time: Input/output error
 Note: Using POSIX realtime
