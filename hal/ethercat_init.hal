@@ -1,3 +1,9 @@
+# Apply gear ratio before master activation (slave is in PREOP, accessible via SDO).
+# Ensures actual-pos is scaled correctly from the first servo cycle, preventing
+# the 0.5mm position snap when the motor is first energized.
+loadusr -w bash -c "n=0; until ethercat -p0 download --type uint32 0x6091 0x01 8388608 2>/dev/null; do n=$((n+1)); [ \$n -ge 30 ] && break; sleep 0.2; done"
+loadusr -w bash -c "n=0; until ethercat -p0 download --type uint32 0x6091 0x02 10000 2>/dev/null; do n=$((n+1)); [ \$n -ge 30 ] && break; sleep 0.2; done"
+
 # lcec_conf reads the XML and configures the EtherCAT master/slaves;
 # loadrt lcec provides the HAL pins.  addf calls are in ethercat.hal,
 # which loads after core_sim.hal has created servo-thread.
