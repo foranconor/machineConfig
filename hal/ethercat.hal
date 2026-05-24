@@ -41,7 +41,8 @@ net j0-enable       joint.0.amp-enable-out      => cia402-sm.enable
 net j0-controlword  cia402-sm.controlword       => lcec.0.x-drive.controlword
 net j0-fault        cia402-sm.fault             => joint.0.amp-fault-in
 
-# --- Velocity feedforward: mm/s -> s32 counts/s ---
+# --- Velocity feedforward: mm/s -> s32 counts/s -> 60B1h (speed-offset) ---
+# Requires P05.19=2 and P08.19=100% on the drive.
 net j0-vel-mms      joint.0.vel-cmd      => j0-vel-scale.in
 net j0-vel-f        j0-vel-scale.out     => j0-vel-conv.in
-net j0-vel-cnt      j0-vel-conv.out      => lcec.0.x-drive.target-vel
+net j0-vel-cnt      j0-vel-conv.out      => lcec.0.x-drive.speed-offset
