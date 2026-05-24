@@ -1,0 +1,1 @@
+KERNEL=="ethercat*", MODE="0666"

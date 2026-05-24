@@ -123,6 +123,13 @@ systemctl enable ethercat
 systemctl restart ethercat
 echo "EtherCAT master service started."
 
+# ── udev rule for /dev/ethercat ───────────────────────────────────────────────
+echo "--- Installing udev rule for /dev/ethercat ---"
+cp "$REPO_DIR/udev/99-ethercat.rules" /etc/udev/rules.d/
+udevadm control --reload-rules
+udevadm trigger --name-match=ethercat
+echo "udev rule installed."
+
 # ── linuxcnc-ethercat ─────────────────────────────────────────────────────────
 if dpkg -l linuxcnc-ethercat 2>/dev/null | grep -q "^ii"; then
     echo "--- linuxcnc-ethercat already installed, skipping ---"
