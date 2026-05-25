@@ -59,13 +59,14 @@ sdo_write('uint32', '0x607f', '0x00', '500000')
 # Default 1048576 (~1m) is effectively disabled.
 sdo_write('uint32', '0x6065', '0x00', '5000')
 
-# Speed loop: 50.0Hz bandwidth (stored ×10 = 500), 25.00ms integration (stored ×100 = 2500).
-# Defaults are 25.0Hz / 31.83ms — these were tuned up previously.
-sdo_write('uint16', '0x2008', '0x01', '500')
-sdo_write('uint16', '0x2008', '0x02', '2500')
+# Speed loop: bandwidth (stored ×10), integration time (stored ×100).
+# Position loop bandwidth must be ≤ speed bandwidth ÷ 3 for stable cascaded control.
+# Raise 2008:01h first, then 2008:03h can follow. Default: 25.0Hz / 31.83ms.
+sdo_write('uint16', '0x2008', '0x01', '500')   # 50.0Hz — raise this first
+sdo_write('uint16', '0x2008', '0x02', '2500')  # 25.00ms integration
 
-# Position loop: 40.0Hz (stored ×10 = 400). Default. Increase if following error persists.
-sdo_write('uint16', '0x2008', '0x03', '400')
+# Position loop: (stored ×10). Max safe = speed bandwidth ÷ 3. At 50Hz speed: max ~170.
+sdo_write('uint16', '0x2008', '0x03', '400')   # 40.0Hz — limited by speed loop above
 
 # Speed feedforward filter: 0.50ms (stored ×100 = 50). Default.
 sdo_write('uint16', '0x2008', '0x13', '50')
