@@ -55,9 +55,9 @@ sdo_write('uint16', '0x2005', '0x14', '1')
 # Max speed cap: 500mm/s in cmd units. Motor max = 2500RPM × 10mm pitch = 416667 cmd/s.
 sdo_write('uint32', '0x607f', '0x00', '500000')
 
-# Drive-side position deviation alarm: 5mm = 5000 cmd units, matches LinuxCNC FERROR.
+# Drive-side position deviation alarm: 20mm = 20000 cmd units, matches LinuxCNC FERROR.
 # Default 1048576 (~1m) is effectively disabled.
-sdo_write('uint32', '0x6065', '0x00', '5000')
+sdo_write('uint32', '0x6065', '0x00', '20000')
 
 # Speed loop: bandwidth (stored ×10, range 0.1~200.0Hz, max stored = 2000).
 # Integration time scaled proportionally: new = old × (old_BW / new_BW).
