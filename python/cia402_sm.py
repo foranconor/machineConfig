@@ -40,9 +40,42 @@ def sdo_write(obj_type, idx, subidx, value, retries=20):
         time.sleep(0.1)
     raise RuntimeError(f'SDO write failed after {retries} attempts: {idx}:{subidx} = {value}')
 
-# Parameters applied at every startup (drive does not persist these across power cycles)
+# Parameters applied at every startup.
+# Drive persists 2000h params to EEPROM (200C:0Eh=3), but we write them here too
+# so the config is self-documenting and survives a factory reset.
+
+# Electronic gear ratio: 8388608:10000 → 1 cmd unit = 1 micron (23-bit encoder, 10mm screw)
 sdo_write('uint32', '0x6091', '0x01', '8388608')
 sdo_write('uint32', '0x6091', '0x02', '10000')
+
+# Speed feedforward source: 1 = internal (drive computes from consecutive position targets)
+# Must be set before enable (stop setting).
+sdo_write('uint16', '0x2005', '0x14', '1')
+
+# Max speed cap: 500mm/s in cmd units. Motor max = 2500RPM × 10mm pitch = 416667 cmd/s.
+sdo_write('uint32', '0x607f', '0x00', '500000')
+
+# Drive-side position deviation alarm: 5mm = 5000 cmd units, matches LinuxCNC FERROR.
+# Default 1048576 (~1m) is effectively disabled.
+sdo_write('uint32', '0x6065', '0x00', '5000')
+
+# Speed loop: 50.0Hz bandwidth (stored ×10 = 500), 25.00ms integration (stored ×100 = 2500).
+# Defaults are 25.0Hz / 31.83ms — these were tuned up previously.
+sdo_write('uint16', '0x2008', '0x01', '500')
+sdo_write('uint16', '0x2008', '0x02', '2500')
+
+# Position loop: 40.0Hz (stored ×10 = 400). Default. Increase if following error persists.
+sdo_write('uint16', '0x2008', '0x03', '400')
+
+# Speed feedforward filter: 0.50ms (stored ×100 = 50). Default.
+sdo_write('uint16', '0x2008', '0x13', '50')
+
+# Torque feedforward: gain disabled (0), filter 0.50ms. Not used in internal-FF mode.
+sdo_write('uint16', '0x2008', '0x16', '0')
+sdo_write('uint16', '0x2008', '0x15', '50')
+
+# Torque command filter: 0.79ms (stored ×100 = 79). Default.
+sdo_write('uint16', '0x2007', '0x06', '79')
 
 feedforward_applied = False
 
