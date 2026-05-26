@@ -13,14 +13,18 @@ CMD_DISABLE_VOLTAGE = 0x0000
 CMD_SHUTDOWN        = 0x0006  # → Ready to switch on
 CMD_SWITCH_ON       = 0x0007  # → Switched on
 CMD_ENABLE_OP       = 0x000F  # → Operation enabled
+CMD_QUICK_STOP      = 0x0002  # → Quick Stop Active (bit2=0 asserts quick stop)
 CMD_FAULT_RESET     = 0x0080
 
-# Statusword state mask (bits 6,5,3,2,1,0)
+# Statusword state mask: DS402 bits 6,5,3,2,1,0 define the state machine.
+# Bits 4 (voltage enabled), 7 (warning), 9 (remote) etc. are informational
+# and must be masked out before comparing against state values.
 SW_MASK = 0x006F
-SW_SWITCH_ON_DISABLED = 0x0040
-SW_READY_TO_SWITCH_ON = 0x0021
-SW_SWITCHED_ON        = 0x0023
-SW_OPERATION_ENABLED  = 0x0027
+SW_SWITCH_ON_DISABLED = 0x0040  # LC10E: 0x0250
+SW_READY_TO_SWITCH_ON = 0x0021  # LC10E: 0x0231
+SW_SWITCHED_ON        = 0x0023  # LC10E: 0x0233
+SW_OPERATION_ENABLED  = 0x0027  # LC10E: 0x0237
+SW_QUICK_STOP_ACTIVE  = 0x0007  # LC10E: 0x0217 ("Fast stop")
 SW_FAULT_BIT          = 0x0008
 
 h = hal.component('cia402-sm')
@@ -59,6 +63,12 @@ sdo_write('uint32', '0x607f', '0x00', '500000')
 # Default 1048576 (~1m) is effectively disabled.
 sdo_write('uint32', '0x6065', '0x00', '20000')
 
+# Quick stop: decelerate on quick-stop ramp then auto-transition to Switch On Disabled.
+# 605A=3 means no controlword needed after decel — drive lands in Servo no faults (0x0250).
+sdo_write('uint16', '0x605A', '0x00', '3')
+# Quick stop deceleration: match joint MAX_ACCELERATION = 500 mm/s² = 500000 cmd units/s²
+sdo_write('uint32', '0x6085', '0x00', '500000')
+
 # Speed loop: bandwidth (stored ×10, range 0.1~200.0Hz, max stored = 2000).
 # Integration time scaled proportionally: new = old × (old_BW / new_BW).
 # Default was 25.0Hz / 31.83ms.
@@ -92,8 +102,20 @@ try:
             h['controlword'] = CMD_FAULT_RESET if enable else CMD_DISABLE_VOLTAGE
             h['enabled'] = False
             h['fault']   = True
+        elif state == SW_QUICK_STOP_ACTIVE:
+            # Hold CMD_QUICK_STOP while the drive decelerates on the quick-stop ramp.
+            # With 605A=3 the drive auto-transitions to Switch On Disabled when done —
+            # no further controlword needed from us.
+            h['controlword'] = CMD_QUICK_STOP
+            h['enabled'] = False
+            h['fault']   = False
         elif not enable:
-            h['controlword'] = CMD_DISABLE_VOLTAGE
+            if state == SW_OPERATION_ENABLED:
+                # Controlled stop: let the drive decel on its quick-stop ramp.
+                h['controlword'] = CMD_QUICK_STOP
+            else:
+                # Not running — just drop to disabled immediately.
+                h['controlword'] = CMD_DISABLE_VOLTAGE
             h['enabled'] = False
             h['fault']   = False
         elif state == SW_SWITCH_ON_DISABLED:
