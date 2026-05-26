@@ -59,15 +59,16 @@ sdo_write('uint16', '0x2005', '0x14', '1')
 # Max speed cap: 500mm/s in cmd units. Motor max = 2500RPM × 10mm pitch = 416667 cmd/s.
 sdo_write('uint32', '0x607f', '0x00', '500000')
 
-# Drive-side position deviation alarm: 20mm = 20000 cmd units, matches LinuxCNC FERROR.
-# Default 1048576 (~1m) is effectively disabled.
-sdo_write('uint32', '0x6065', '0x00', '20000')
+# Drive-side position deviation alarm: widened to 500mm for slow quick-stop ramp testing.
+# Restore to 20000 (20mm, matching LinuxCNC FERROR) once tuning is complete.
+sdo_write('uint32', '0x6065', '0x00', '500000')
 
 # Quick stop: decelerate on quick-stop ramp then auto-transition to Switch On Disabled.
 # 605A=3 means no controlword needed after decel — drive lands in Servo no faults (0x0250).
 sdo_write('uint16', '0x605A', '0x00', '3')
-# Quick stop deceleration: match joint MAX_ACCELERATION = 500 mm/s² = 500000 cmd units/s²
-sdo_write('uint32', '0x6085', '0x00', '500000')
+# Quick stop deceleration: 20 mm/s² = 20000 cmd units/s² — slow ramp for human observation.
+# Restore to 500000 (500 mm/s², matching joint MAX_ACCELERATION) after testing.
+sdo_write('uint32', '0x6085', '0x00', '20000')
 
 # Speed loop: bandwidth (stored ×10, range 0.1~200.0Hz, max stored = 2000).
 # Integration time scaled proportionally: new = old × (old_BW / new_BW).
