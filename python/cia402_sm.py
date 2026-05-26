@@ -75,11 +75,11 @@ sdo_write('uint16', '0x2007', '0x10', '1000')
 # Speed loop: bandwidth (stored ×10, range 0.1~200.0Hz, max stored = 2000).
 # Integration time scaled proportionally: new = old × (old_BW / new_BW).
 # Default was 25.0Hz / 31.83ms.
-sdo_write('uint16', '0x2008', '0x01', '500')   # 50Hz (2× default)
-sdo_write('uint16', '0x2008', '0x02', '1600')  # 16ms (31.83ms × 25/50)
+sdo_write('uint16', '0x2008', '0x01', '250')   # 50Hz (2× default)
+sdo_write('uint16', '0x2008', '0x02', '3200')  # 16ms (31.83ms × 25/50)
 
 # Position loop: 80Hz (2× default of 40Hz).
-sdo_write('uint16', '0x2008', '0x03', '800')
+sdo_write('uint16', '0x2008', '0x03', '400')
 
 # Speed feedforward filter: 0.50ms (stored ×100 = 50). Default.
 sdo_write('uint16', '0x2008', '0x13', '50')
