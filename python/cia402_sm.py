@@ -59,16 +59,18 @@ sdo_write('uint16', '0x2005', '0x14', '1')
 # Max speed cap: 500mm/s in cmd units. Motor max = 2500RPM × 10mm pitch = 416667 cmd/s.
 sdo_write('uint32', '0x607f', '0x00', '500000')
 
-# Drive-side position deviation alarm: widened to 500mm for slow quick-stop ramp testing.
-# Restore to 20000 (20mm, matching LinuxCNC FERROR) once tuning is complete.
-sdo_write('uint32', '0x6065', '0x00', '500000')
+# Drive-side position deviation alarm: 20mm = 20000 cmd units, matches LinuxCNC FERROR.
+# Default 1048576 (~1m) is effectively disabled.
+sdo_write('uint32', '0x6065', '0x00', '20000')
 
-# Quick stop: decelerate on quick-stop ramp (0x6085) then auto-transition to Switch On Disabled.
-# 605A=2 uses the 0x6085 ramp. 605A=3 (current limit) ignores 0x6085 — fast/violent stop.
-sdo_write('uint16', '0x605A', '0x00', '2')
-# Quick stop deceleration: 20 mm/s² = 20000 cmd units/s² — slow ramp for human observation.
-# Restore to 500000 (500 mm/s², matching joint MAX_ACCELERATION) after testing.
-sdo_write('uint32', '0x6085', '0x00', '1')  # TEST: absurdly slow — restore to 500000 after
+# Quick stop option: 605A=2 → decelerate on quick-stop ramp (0x6085) then Switch On Disabled.
+sdo_write('uint16', '0x605A', '0x00', '2')  # 2 = quick-stop ramp → Switch On Disabled
+# Quick stop deceleration: 500 mm/s² = 500000 cmd units/s², matching joint MAX_ACCELERATION.
+sdo_write('uint32', '0x6085', '0x00', '500000')
+
+# Emergency stop torque limit: stored as ×10 percent of rated torque (range 0.0–300.0%).
+# Default 1000 = 100% (full torque braking). Reduce for no-load testing if needed.
+sdo_write('uint16', '0x2007', '0x10', '1000')
 
 # Speed loop: bandwidth (stored ×10, range 0.1~200.0Hz, max stored = 2000).
 # Integration time scaled proportionally: new = old × (old_BW / new_BW).
@@ -90,8 +92,6 @@ sdo_write('uint16', '0x2008', '0x15', '50')
 sdo_write('uint16', '0x2007', '0x06', '79')
 
 feedforward_applied = False
-_prev_sw = None
-_prev_enable = None
 
 try:
     while True:
@@ -99,14 +99,6 @@ try:
         enable = h['enable']
         state  = sw & SW_MASK
         fault  = bool(sw & SW_FAULT_BIT)
-
-        if enable != _prev_enable:
-            print(f"enable -> {enable}  sw: 0x{sw:04X}  state: 0x{state:04X}", flush=True)
-            _prev_enable = enable
-        if sw != _prev_sw:
-            cw = h['controlword']
-            print(f"statusword: 0x{sw:04X}  state: 0x{state:04X}  enable: {enable}  controlword: 0x{cw:04X}", flush=True)
-            _prev_sw = sw
 
         if fault:
             feedforward_applied = False

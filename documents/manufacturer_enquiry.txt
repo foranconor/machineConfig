@@ -1,0 +1,76 @@
+To: Chloe
+Subject: LC10E EtherCAT — Configurable Quick Stop Deceleration (CiA 402 Fast Stop)
+
+Hi Chloe,
+
+I hope you're well. I'm writing with a technical question about the LC10E EtherCAT servo drive
+and would appreciate being connected to an engineer if needed.
+
+--- Background ---
+
+I am running an LC10E drive (V1.04 firmware) over EtherCAT in CSP mode (Cyclic Synchronous
+Position, opmode 8) controlled by LinuxCNC. The drive is working well for normal operation.
+
+--- What I am trying to achieve ---
+
+I want the drive to perform a controlled, tunable deceleration when an emergency stop is
+commanded — rather than stopping as fast as possible. Specifically, I want to set a maximum
+deceleration rate for the quick stop so that the stop is firm but not violent, and adjustable
+to suit the machine's load.
+
+--- What I have tried ---
+
+Following the CiA 402 / DS402 standard, I have configured the following objects via SDO:
+
+  0x605A (Quick Stop Option Code) = 2
+    → Should select "decelerate on quick-stop ramp then transition to Switch On Disabled"
+
+  0x6085 (Quick Stop Deceleration) = various values (500000, 20000, 1)
+    → Should set the deceleration rate for the quick-stop ramp
+
+Both objects are present in the drive's ESI file, accept SDO writes, and read back the
+written values correctly. However, the deceleration rate is completely unchanged regardless
+of the value written to 0x6085 — even setting it to 1 (effectively zero deceleration) has
+no observable effect. The drive stops at the same rate every time.
+
+I also tested:
+
+  0x605A = 6
+    → Drive correctly enters and remains in Quick Stop Active state (0x0217), confirming
+       the CiA 402 state machine is working. However the stop is still immediate.
+
+  0x605A = 1, 0x6084 (Profile Deceleration) = 1
+    → Same result — no observable effect on deceleration rate.
+
+  0x2002:07 (BP_StopNo2) = 1
+    → This parameter is present in the ESI but absent from my copy of the user manual.
+       Changing it to 1 had no effect on quick stop behaviour.
+
+  0x2007:10 (TL_EmergentToq, Emergency Stop Torque) = various values
+    → This is accepted and may limit peak braking torque, but does not provide the
+       configurable deceleration ramp I need.
+
+--- My observation ---
+
+The CiA 402 state transitions are working correctly (the drive moves through the state
+machine as expected), but the deceleration rate within the Quick Stop Active state appears
+to be fixed and is not influenced by 0x6085 or 0x6084.
+
+--- My questions ---
+
+1. Is configurable quick-stop deceleration (via 0x6085 or another object) supported in
+   CSP mode on the LC10E V1.04 firmware?
+
+2. If so, is there a parameter — either via the front panel or by SDO — that must be set
+   to enable or select the deceleration ramp behaviour? (Similar to how the absolute
+   encoder required 0x200C:0Dh to be set before it would engage.)
+
+3. If 0x6085 is not supported in CSP mode, is there an alternative object or parameter
+   that provides configurable quick stop deceleration?
+
+4. Is there a newer firmware version that addresses this?
+
+Any guidance or connection to your engineering team would be very much appreciated.
+
+Thank you,
+Conor
