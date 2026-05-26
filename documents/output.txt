@@ -1,3 +1,8 @@
+LINUXCNC - 2.9.8
+Machine configuration directory is '/home/conor/linuxcnc/configs/myCoolMachine'
+Machine configuration file is 'myCoolMachine.ini'
+Starting LinuxCNC...
+emc/iotask/ioControl.cc 786: can't load tool table.
 linuxcnc TPMOD=tpmod HOMEMOD=homemod EMCMOT=motmod
 Note: Using POSIX realtime
 Found file(REL): ./ethercat_init.hal
@@ -8,21 +13,31 @@ Found file(REL): ./debug_estop.hal
 Found file(REL): ./ethercat.hal
 Found file(REL): ./myCoolMachine.hal
 Failed to get reference clock time: Input/output error
+enable -> False  sw: 0x0000  state: 0x0000
+statusword: 0x0000  state: 0x0000  enable: False  controlword: 0x0000
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
-statusword: 0x0000  state: 0x0000  enable: False
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
 note: MAXV     max: 333.330 units/sec 19999.800 units/min
 note: LJOG     max: 333.330 units/sec 19999.800 units/min
 note: LJOG default: 50.000 units/sec 3000.000 units/min
 note: jog_order='XYZ'
 note: jog_invert=set()
-statusword: 0x0250  state: 0x0040  enable: False
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-Failed to get reference clock time: Input/output error
-task: main loop took 0.083799 seconds
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
@@ -34,27 +49,83 @@ Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
-statusword: 0x0231  state: 0x0021  enable: True
-Failed to get reference clock time: Input/output error
-statusword: 0x0233  state: 0x0023  enable: True
-statusword: 0x1237  state: 0x0027  enable: True
-Failed to get reference clock time: Input/output error
-statusword: 0x1637  state: 0x0027  enable: True
+statusword: 0x0250  state: 0x0040  enable: False  controlword: 0x0000
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
-task: main loop took 0.020986 seconds
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
-statusword: 0x0250  state: 0x0040  enable: False
-task: main loop took 0.087354 seconds
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
-task: main loop took 0.100687 seconds
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
 Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+task: main loop took 0.120674 seconds
+enable -> True  sw: 0x0250  state: 0x0040
+statusword: 0x0231  state: 0x0021  enable: True  controlword: 0x0006
+statusword: 0x0233  state: 0x0023  enable: True  controlword: 0x0007
+statusword: 0x1237  state: 0x0027  enable: True  controlword: 0x000F
+statusword: 0x1637  state: 0x0027  enable: True  controlword: 0x000F
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+task: main loop took 0.020739 seconds
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+enable -> False  sw: 0x1637  state: 0x0027
+statusword: 0x0250  state: 0x0040  enable: False  controlword: 0x0002
+task: main loop took 0.150671 seconds
+Failed to get reference clock time: Input/output error
+task: main loop took 0.100927 seconds
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Shutting down and cleaning up LinuxCNC...
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+Failed to get reference clock time: Input/output error
+task: 33588 cycles, min=0.000030, max=0.150671, avg=0.001101, 4 latency excursions (> 10x expected cycle time of 0.001000s)
+Failed to get reference clock time: Input/output error
+Note: Using POSIX realtime
