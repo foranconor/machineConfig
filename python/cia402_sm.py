@@ -68,7 +68,7 @@ sdo_write('uint32', '0x6065', '0x00', '500000')
 sdo_write('uint16', '0x605A', '0x00', '2')
 # Quick stop deceleration: 20 mm/s² = 20000 cmd units/s² — slow ramp for human observation.
 # Restore to 500000 (500 mm/s², matching joint MAX_ACCELERATION) after testing.
-sdo_write('uint32', '0x6085', '0x00', '20000')
+sdo_write('uint32', '0x6085', '0x00', '1')  # TEST: absurdly slow — restore to 500000 after
 
 # Speed loop: bandwidth (stored ×10, range 0.1~200.0Hz, max stored = 2000).
 # Integration time scaled proportionally: new = old × (old_BW / new_BW).
@@ -99,7 +99,6 @@ try:
         state  = sw & SW_MASK
         fault  = bool(sw & SW_FAULT_BIT)
 
-        global _prev_sw
         if sw != _prev_sw:
             print(f"statusword: 0x{sw:04X}  state: 0x{state:04X}  enable: {enable}", flush=True)
             _prev_sw = sw
