@@ -90,6 +90,7 @@ sdo_write('uint16', '0x2008', '0x15', '50')
 sdo_write('uint16', '0x2007', '0x06', '79')
 
 feedforward_applied = False
+_prev_sw = None
 
 try:
     while True:
@@ -97,6 +98,11 @@ try:
         enable = h['enable']
         state  = sw & SW_MASK
         fault  = bool(sw & SW_FAULT_BIT)
+
+        global _prev_sw
+        if sw != _prev_sw:
+            print(f"statusword: 0x{sw:04X}  state: 0x{state:04X}  enable: {enable}", flush=True)
+            _prev_sw = sw
 
         if fault:
             feedforward_applied = False
