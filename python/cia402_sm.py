@@ -91,7 +91,21 @@ sdo_write('uint16', '0x2008', '0x15', '50')
 # Torque command filter: 0.79ms (stored ×100 = 79). Default.
 sdo_write('uint16', '0x2007', '0x06', '79')
 
+# Fault reset sub-states.
+# CiA 402 requires a 0→1 rising edge on controlword bit 7 to trigger a fault reset.
+# If CMD_FAULT_RESET is held continuously, the drive sees no new edge when the fault
+# condition finally clears (e.g. ER900 via DI) and stays latched.
+# On each enable rising edge (ack event), check the drive state first: if it's in
+# fault, run an explicit LOW→HIGH sequence to guarantee a clean edge.
+FRST_IDLE = 0
+FRST_LOW  = 1   # holding bit7=0 before the reset pulse
+FRST_HIGH = 2   # holding bit7=1, waiting for drive to exit fault
+
 feedforward_applied = False
+fault_reset_st      = FRST_IDLE
+fault_reset_cnt     = 0
+prev_enable         = False
+prev_sw             = None
 
 try:
     while True:
@@ -100,9 +114,50 @@ try:
         state  = sw & SW_MASK
         fault  = bool(sw & SW_FAULT_BIT)
 
+        enable_rising = enable and not prev_enable
+
+        if not fault:
+            # Fault bit gone — reset sub-state so the next fault starts fresh.
+            fault_reset_st  = FRST_IDLE
+            fault_reset_cnt = 0
+
+        if sw != prev_sw:
+            print(f'[cia402] sw=0x{sw:04X} masked=0x{state:02X} '
+                  f'fault={int(fault)} enable={int(enable)}', flush=True)
+            prev_sw = sw
+
         if fault:
             feedforward_applied = False
-            h['controlword'] = CMD_FAULT_RESET if enable else CMD_DISABLE_VOLTAGE
+
+            if not enable:
+                fault_reset_st  = FRST_IDLE
+                fault_reset_cnt = 0
+                h['controlword'] = CMD_DISABLE_VOLTAGE
+
+            elif enable_rising or fault_reset_st == FRST_IDLE:
+                # Ack just received (or first tick with enable+fault).
+                # Drive is in fault — start explicit reset: bit7 LOW first.
+                print(f'[cia402] fault detected on enable, starting reset '
+                      f'sequence (sw=0x{sw:04X})', flush=True)
+                fault_reset_st  = FRST_LOW
+                fault_reset_cnt = 0
+                h['controlword'] = CMD_DISABLE_VOLTAGE
+
+            else:
+                fault_reset_cnt += 1
+                if fault_reset_st == FRST_LOW:
+                    h['controlword'] = CMD_DISABLE_VOLTAGE  # bit7=0
+                    if fault_reset_cnt >= 5:                # ~50 ms low
+                        fault_reset_st  = FRST_HIGH
+                        fault_reset_cnt = 0
+                else:  # FRST_HIGH
+                    h['controlword'] = CMD_FAULT_RESET      # bit7=1 → rising edge
+                    if fault_reset_cnt >= 10:               # ~100 ms; retry if no response
+                        print(f'[cia402] fault reset timeout, retrying '
+                              f'(sw=0x{sw:04X})', flush=True)
+                        fault_reset_st  = FRST_LOW
+                        fault_reset_cnt = 0
+
             h['enabled'] = False
             h['fault']   = True
         elif state == SW_QUICK_STOP_ACTIVE:
@@ -145,6 +200,7 @@ try:
             h['enabled'] = False
             h['fault']   = False
 
+        prev_enable = enable
         time.sleep(0.01)
 except KeyboardInterrupt:
     pass
