@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+# M102 - clear active resume checkpoint
+# Use before entering critical sections where a mid-program resume is unsafe.
+
+import sys
+import os
+
+RESUME_PATH = os.path.expanduser('~/linuxcnc/resume/resume.ngc')
+
+os.makedirs(os.path.dirname(RESUME_PATH), exist_ok=True)
+with open(RESUME_PATH, 'w') as f:
+    f.write('( No resume point set )\n')
+    f.write('(MSG, No active resume point)\n')
+    f.write('M2\n')
+
+sys.exit(0)

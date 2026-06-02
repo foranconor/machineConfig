@@ -1,0 +1,114 @@
+#!/usr/bin/env python3
+# M101 P<tool> Q<checkpoint_id> - write a smart resume checkpoint
+# Place at safe spots: post-retract, pre-rapid, tool loaded and spindle running.
+# P = tool that should be in spindle to resume (usually the current tool)
+# Q = integer ID unique within this program file
+
+import sys
+import re
+import os
+from datetime import datetime
+import linuxcnc
+
+RESUME_PATH = os.path.expanduser('~/linuxcnc/resume/resume.ngc')
+
+def clear_resume():
+    os.makedirs(os.path.dirname(RESUME_PATH), exist_ok=True)
+    with open(RESUME_PATH, 'w') as f:
+        f.write('( No resume point set )\n')
+        f.write('(MSG, No active resume point)\n')
+        f.write('M2\n')
+
+def main():
+    if len(sys.argv) < 3:
+        raise ValueError('usage: M101 P<tool> Q<checkpoint_id>')
+
+    try:
+        p_tool = int(float(sys.argv[1]))
+        q_id   = int(float(sys.argv[2]))
+    except ValueError:
+        raise ValueError('P and Q must be integers')
+
+    if p_tool < 1:
+        raise ValueError('P must be >= 1')
+
+    stat = linuxcnc.stat()
+    stat.poll()
+
+    program_file = stat.file
+    if not program_file:
+        raise RuntimeError('no program file loaded')
+
+    with open(program_file, 'r') as f:
+        lines = f.readlines()
+
+    # Scan for the unique checkpoint line by Q ID - avoids relying on stat.current_line
+    pattern = re.compile(r'^\s*[Mm]101\b.*\bQ\s*0*' + str(q_id) + r'\b')
+    matches = [i for i, line in enumerate(lines) if pattern.match(line)]
+
+    if len(matches) == 0:
+        raise RuntimeError(f'checkpoint Q{q_id} not found in {os.path.basename(program_file)}')
+    if len(matches) > 1:
+        raise RuntimeError(f'checkpoint Q{q_id} not unique - lines {[m + 1 for m in matches]}')
+
+    cp_line      = matches[0]
+    cp_lineno    = cp_line + 1   # 1-indexed for display
+    resume_lines = lines[cp_line + 1:]
+
+    # Decode modal state from stat
+    gcodes = stat.gcodes
+    units     = {200: 'G20', 210: 'G21'}.get(gcodes[6], 'G21')
+    plane     = {170: 'G17', 180: 'G18', 190: 'G19'}.get(gcodes[2], 'G17')
+    dist      = {900: 'G90', 910: 'G91'}.get(gcodes[3], 'G90')
+    feed_mode = {930: 'G93', 940: 'G94', 950: 'G95'}.get(gcodes[5], 'G94')
+    wcs       = {1: 'G54', 2: 'G55', 3: 'G56', 4: 'G57',
+                 5: 'G58', 6: 'G59', 7: 'G59.1', 8: 'G59.2', 9: 'G59.3'}.get(stat.g5x_index, 'G54')
+
+    feed_rate    = stat.settings[1]
+    spindle_spd  = stat.settings[2]
+    spindle_dir  = stat.spindle[0]['direction']   # 1=CW, -1=CCW, 0=stopped
+    spindle_cmd  = {1: 'M3', -1: 'M4'}.get(spindle_dir, 'M5')
+    current_tool = stat.tool_in_spindle
+
+    src = os.path.basename(program_file)
+    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    preamble = [
+        f'( Resume: {src} line {cp_lineno} checkpoint Q{q_id} )\n',
+        f'( Generated {now} )\n',
+        f'G40 G49\n',
+        f'{units} {plane} {dist} {feed_mode}\n',
+        f'{wcs}\n',
+    ]
+
+    if current_tool != p_tool:
+        # tool_change.ngc applies G43 at end - no separate G43 needed here
+        preamble.append(f'T{p_tool} M6\n')
+    else:
+        # G49 issued above - re-apply TLO without triggering a change
+        preamble.append(f'( T{p_tool} already in spindle )\n')
+        preamble.append(f'G43 H{p_tool}\n')
+
+    if spindle_dir != 0:
+        preamble.append(f'S{spindle_spd:.0f} {spindle_cmd}\n')
+
+    if feed_rate > 0:
+        preamble.append(f'F{feed_rate:.1f}\n')
+    else:
+        preamble.append('( WARNING: no feed rate at checkpoint - set F before cutting )\n')
+
+    preamble.append(f'( === resuming from line {cp_lineno + 1} === )\n')
+
+    os.makedirs(os.path.dirname(RESUME_PATH), exist_ok=True)
+    with open(RESUME_PATH, 'w') as f:
+        f.writelines(preamble)
+        f.writelines(resume_lines)
+
+    print(f'Resume checkpoint set: {src} Q{q_id} line {cp_lineno}', file=sys.stderr)
+
+try:
+    main()
+except Exception as e:
+    clear_resume()
+    print(f'M101: {e}', file=sys.stderr)
+    sys.exit(1)

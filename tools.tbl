@@ -1,6 +1,9 @@
-T7   P1  D+6.000000  Z+22.000000  ;6mm upcut spiral
-T12  P2  D+12.000000 Z+28.000000  ;12mm straight bit
-T3   P3  D+3.000000  Z+16.000000  ;3mm V-bit 90deg
-T19  P4  D+20.000000 Z+35.000000  ;20mm surfacing bit
+T7   P0  D+6.000000  Z+22.000000  ;6mm upcut spiral
+T12  P0  D+12.000000 Z+28.000000  ;12mm straight bit
+T3   P0  D+3.000000  Z+16.000000  ;3mm V-bit 90deg
+T19  P0  D+20.000000 Z+35.000000  ;20mm surfacing bit
 T5   P0  D+8.000000  Z+24.000000  ;8mm compression bit
 T23  P0  D+1.000000  Z+12.000000  ;1mm engraving bit
+T103 P1  D+12.5 Z+100.0 ; Novitec hogger
+T104 P2  D+12.5 Z+100.0 ; Straight finish cutter
+T101 P3  D+10.0 Z+100.0 ; Trenching cutter
